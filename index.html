@@ -158,6 +158,87 @@ code{background:var(--bg);border:1px solid var(--line);padding:2px 7px;border-ra
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:500;font-size:14px;opacity:0;transition:.2s;z-index:40;display:flex;gap:14px;align-items:center;pointer-events:none;max-width:90vw}
 .toast.on{opacity:1;transform:translateX(-50%);pointer-events:auto}
 .toast button{font-weight:700;color:#c4421f}
+/* ---------- DJ room ---------- */
+.room-on #welcome,.room-on #player{display:none!important}
+.roombtn{display:flex;align-items:center;gap:12px;text-align:left;padding:10px 12px;border-radius:12px;background:linear-gradient(135deg,#2a1e3d,#1b2030);border:1px solid #3b2d57;margin-top:6px}
+.roombtn:hover{border-color:#7c5cff}
+.roombtn.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.rb-dino{font-size:26px}
+.roombtn b{display:block;font-size:14px}.roombtn small{color:var(--muted);font-size:12px}
+.rcard{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;max-width:760px}
+.rcard h2{font:700 24px var(--head);margin:0 0 6px}
+.muted{color:var(--muted)}
+.code{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:12px/1.5 ui-monospace,Consolas,monospace;color:#cfe;overflow:auto;margin:8px 0}
+.small-btn{padding:6px 12px;font-size:13px}
+.rcard textarea,.rcard .field input{width:100%;padding:11px 13px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:inherit;font:13px ui-monospace,Consolas,monospace}
+.dinopick{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 16px}
+.dinopick button{font-size:30px;width:56px;height:56px;border-radius:14px;background:var(--panel2);border:2px solid var(--line)}
+.dinopick button.on{border-color:var(--accent);background:#ff7a5918}
+.rhead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.rhead h2{font:700 28px var(--head);margin:4px 0 0;letter-spacing:-.02em}
+.rhead-r{display:flex;gap:8px;flex-wrap:wrap}
+.stage{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:32px;align-items:center}
+.media{position:relative;aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:#0f121a;border:1px solid var(--line)}
+.mart{position:absolute;inset:0;background:linear-gradient(135deg,#2a1e3d,#141821) center/cover}
+.mart.empty::after{content:'🦖';position:absolute;inset:0;display:grid;place-items:center;font-size:70px;opacity:.5}
+.ybox{position:absolute;inset:0}
+.ybox iframe,#ytPlayer{width:100%!important;height:100%!important;border:0}
+.tapplay{position:absolute;inset:auto 50% 50% auto;transform:translate(50%,50%);background:var(--accent);color:#1a0d08;font-weight:700;padding:14px 22px;border-radius:30px;box-shadow:0 10px 30px #000a;z-index:3}
+.srcrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.srcbadge{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:6px;background:var(--panel2)}
+.srcbadge.spotify{background:#1ed76022;color:var(--sp)}.srcbadge.youtube{background:#ff000022;color:#ff5f5f}.srcbadge.soundcloud{background:#ff770022;color:#ff9a40}
+.djby{font-size:13px;color:var(--muted)}
+.minfo h1{font:700 clamp(24px,3.4vw,38px)/1.1 var(--head);letter-spacing:-.02em;margin:10px 0 6px;overflow-wrap:anywhere}
+.votes{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.vbtn{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);font-weight:600;font-size:14px}
+.vbtn b{background:var(--bg);border-radius:6px;padding:0 7px;font-size:12px;color:var(--muted)}
+.vbtn.woot.on{background:#4fd1a522;border-color:var(--good);color:var(--good)}
+.vbtn.meh.on{background:#ff5d7322;border-color:var(--bad);color:var(--bad)}
+.vbtn.grab.on{background:#ffb34722;border-color:var(--accent2);color:var(--accent2)}
+.vbtn:disabled{opacity:.4}
+.floor{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;align-items:flex-end;margin:26px 0 8px;padding:20px 12px 14px;border-radius:16px;background:radial-gradient(ellipse at 50% 120%,#7c5cff33,transparent 60%),var(--panel);border:1px solid var(--line);min-height:120px}
+.dancer{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:64px}
+.dancer .bod{font-size:40px;line-height:1;filter:drop-shadow(0 6px 8px #0008);animation:bob 1s ease-in-out infinite}
+.dancer.woot .bod{animation:bounce .45s ease-in-out infinite}
+.dancer.meh .bod{animation:none;filter:grayscale(.6) drop-shadow(0 6px 8px #0008);transform:rotate(-8deg)}
+.dancer.dj .bod{font-size:54px}
+.dancer .nm{font-size:12px;color:var(--muted);max-width:90px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dancer.dj .nm{color:var(--accent);font-weight:700}
+.dancer .tag{font-size:11px;height:14px}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes bounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-12px) scale(1.06)}}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.rcol{display:flex;flex-direction:column;gap:16px;min-width:0}
+.rpanel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
+.rph{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.rph h3{font:700 13px var(--head);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:0}
+.rinput{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);outline:none}
+.rinput:focus{border-color:var(--accent)}
+.waitlist,.myq{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.waitlist li{display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:10px;background:var(--panel2)}
+.waitlist li.me{outline:1px solid var(--accent)}
+.waitlist .pos{width:22px;text-align:center;color:var(--dim);font-weight:700;font-size:13px}
+.myq li,.qres{display:flex;align-items:center;gap:10px;padding:6px;border-radius:10px}
+.myq li{background:var(--panel2)}
+.qres:hover{background:var(--panel2)}
+.thumb{width:40px;height:40px;border-radius:7px;flex:none;background:#232a3d center/cover;display:grid;place-items:center;font-size:16px}
+.qt{flex:1;min-width:0}.qt div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.qt .a{font-size:12px;color:var(--muted)}
+.qbtn{padding:5px 8px;border-radius:7px;color:var(--muted);font-size:13px}.qbtn:hover{background:var(--bg);color:var(--text)}
+.qbtn.add{color:var(--accent);font-weight:700}
+#qResults{margin:8px 0}
+.chatp{display:flex;flex-direction:column;height:380px}
+.chat{flex:1;overflow:auto;display:flex;flex-direction:column;gap:6px;padding-right:4px}
+.msg{font-size:14px;line-height:1.35}.msg .who{font-weight:600;margin-right:6px}.msg.sys{color:var(--dim);font-size:12px;font-style:italic}
+.chatform{display:flex;gap:8px;margin-top:10px}
+.rhist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;max-height:300px;overflow:auto}
+.rhist li{display:flex;align-items:center;gap:10px;font-size:13px}
+.rhist .sc{font-size:12px;color:var(--muted);white-space:nowrap}
+@media (max-width:860px){
+  .stage{grid-template-columns:1fr;gap:18px}
+  .rgrid{grid-template-columns:1fr}
+  .chatp{height:340px}
+  .rhead h2{font-size:22px}
+}
 @media (max-width:860px){
   /* phone: brand + stations strip on top, player next, device picker last */
   .app{display:flex;flex-direction:column;padding-top:14px}
@@ -221,6 +302,7 @@ code{background:var(--bg);border:1px solid var(--line);padding:2px 7px;border-ra
   <aside class="side">
     <div class="brand" style="margin:0 6px 10px"><div class="dot"></div>Dino<span>Radio</span></div>
     <button class="btn primary" id="newStation">+ New station</button>
+    <button class="roombtn" id="roomBtn"><span class="rb-dino">🦖</span><span><b>DJ Room</b><small id="roomBtnSub">Take turns DJing with friends</small></span></button>
     <div class="label">Your stations</div>
     <ul id="stations"></ul>
     <div class="devbox">
@@ -239,6 +321,106 @@ code{background:var(--bg);border:1px solid var(--line);padding:2px 7px;border-ra
       <p>Choose an artist, a song or a genre. Dino Radio plays similar music from Spotify. Give songs a thumbs up or down and each station learns what you like.</p>
       <button class="btn primary" id="newStation2" style="margin-top:14px">+ New station</button>
       <div class="pickgrid" id="topPicks"></div>
+    </div>
+
+    <div id="roomView" hidden>
+      <!-- create a room (owner, one time) -->
+      <div id="roomSetup" class="rcard" hidden>
+        <h2>Set up your DJ Room</h2>
+        <p class="muted">The room uses Google Firebase (free) so everyone sees the same song, waitlist and chat in real time. It takes about 10 minutes, once. Your friends won't need to do this; they just open your invite link.</p>
+        <ol class="steps">
+          <li><b>Create a Firebase project</b><div>Go to <a href="https://console.firebase.google.com" target="_blank" rel="noopener">console.firebase.google.com</a> → <b>Create a project</b>, name it <code>dino-radio</code>, and turn Google Analytics <b>off</b>.</div></li>
+          <li><b>Turn on anonymous sign-in</b><div>Left menu → <b>Build → Authentication</b> → <b>Get started</b> → <b>Sign-in method</b> tab → <b>Anonymous</b> → <b>Enable</b> → Save.</div></li>
+          <li><b>Create the database</b><div><b>Build → Realtime Database</b> → <b>Create Database</b> → pick the United States location → <b>Start in locked mode</b> → Enable. Then open its <b>Rules</b> tab, replace everything with this, and click <b>Publish</b>:
+            <pre class="code" id="fbRules">{
+  "rules": {
+    "rooms": {
+      "$room": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    }
+  }
+}</pre><button class="btn ghost small-btn" id="copyRules">Copy rules</button></div></li>
+          <li><b>Register the web app</b><div>Click the ⚙️ next to <b>Project Overview</b> → <b>Project settings</b> → under “Your apps” click the <b>&lt;/&gt;</b> (Web) icon → nickname <code>dino</code> → <b>Register app</b>. Copy the whole <code>firebaseConfig = { … }</code> block it shows and paste it below.</div></li>
+          <li><b>Paste and create</b>
+            <div class="field"><label for="fbIn">Firebase config</label><textarea id="fbIn" rows="6" placeholder="const firebaseConfig = { apiKey: &quot;…&quot;, … };"></textarea></div>
+            <div class="field" id="dbUrlField" hidden><label for="dbUrl">Realtime Database URL (it wasn't in the config, so copy it from the top of the Realtime Database page, e.g. https://dino-radio-default-rtdb.firebaseio.com)</label><input id="dbUrl" placeholder="https://….firebaseio.com"></div>
+            <div class="field"><label for="roomNameIn">Room name</label><input id="roomNameIn" value="Dino Room" maxlength="40"></div>
+            <div id="roomSetupErr" class="err" hidden></div>
+            <button class="btn primary" id="createRoom">Create my DJ Room</button></li>
+        </ol>
+      </div>
+
+      <!-- pick a name -->
+      <div id="roomJoin" class="rcard" hidden>
+        <h2 id="joinTitle">Join the room</h2>
+        <p class="muted">Pick a name and a dino. Everyone in the room sees them.</p>
+        <div class="field"><label for="meName">Your name</label><input id="meName" maxlength="20" placeholder="Name"></div>
+        <div class="dinopick" id="dinoPick"></div>
+        <div id="roomJoinErr" class="err" hidden></div>
+        <button class="btn primary" id="joinRoomBtn">Enter the room</button>
+      </div>
+
+      <!-- the room -->
+      <div id="roomMain" hidden>
+        <div class="rhead">
+          <div><div class="stname">DJ Room</div><h2 id="roomTitle">—</h2></div>
+          <div class="rhead-r">
+            <button class="btn ghost" id="inviteBtn">🔗 Copy invite link</button>
+            <button class="btn ghost" id="leaveRoom">Leave room</button>
+          </div>
+        </div>
+        <div id="roomWarn" class="warn" hidden></div>
+        <section class="stage">
+          <div class="media" id="media">
+            <div class="mart" id="mArt"></div>
+            <div class="ybox" id="ytBox" hidden><div id="ytPlayer"></div></div>
+            <div class="ybox" id="scBox" hidden></div>
+            <button class="tapplay" id="tapPlay" hidden>▶ Tap to play</button>
+          </div>
+          <div class="minfo">
+            <div class="srcrow"><span class="srcbadge" id="srcBadge"></span><span class="djby" id="djBy"></span></div>
+            <h1 id="rTitle">Nobody's DJing yet</h1>
+            <div class="artist" id="rArtist">Add songs to your queue, then join the waitlist to DJ.</div>
+            <div class="progress"><span id="rCur">0:00</span><div class="bar"><div id="rFill"></div></div><span id="rDur">0:00</span></div>
+            <div class="votes">
+              <button class="vbtn woot" id="bWoot"><span>👍 Woot</span><b id="nWoot">0</b></button>
+              <button class="vbtn meh" id="bMeh"><span>👎 Meh</span><b id="nMeh">0</b></button>
+              <button class="vbtn grab" id="bGrab" title="Copy this song into your queue"><span>★ Grab</span><b id="nGrab">0</b></button>
+              <button class="vbtn" id="bRSkip" hidden>⏭ Skip</button>
+              <button class="vbtn" id="bResync" title="Re-sync to the room if your audio drifted">⟳ Sync</button>
+            </div>
+            <p class="small" id="mehNote" style="margin-top:10px"></p>
+          </div>
+        </section>
+        <section class="floor" id="floor"></section>
+        <section class="rgrid">
+          <div class="rcol">
+            <div class="rpanel">
+              <div class="rph"><h3>Waitlist</h3><button class="btn primary small-btn" id="waitBtn">Join waitlist</button></div>
+              <ol class="waitlist" id="waitList"></ol>
+            </div>
+            <div class="rpanel">
+              <div class="rph"><h3>My queue</h3><span class="small" id="qCount"></span></div>
+              <input id="qSearch" class="rinput" placeholder="Search Spotify, or paste a YouTube / SoundCloud link" autocomplete="off">
+              <div id="qResults"></div>
+              <ol class="myq" id="myQueue"></ol>
+            </div>
+          </div>
+          <div class="rcol">
+            <div class="rpanel chatp">
+              <div class="rph"><h3>Chat</h3></div>
+              <div class="chat" id="chatLog"></div>
+              <form id="chatForm" class="chatform"><input id="chatIn" class="rinput" placeholder="Say something…" maxlength="300" autocomplete="off"><button class="btn primary small-btn">Send</button></form>
+            </div>
+            <div class="rpanel">
+              <div class="rph"><h3>Recently played</h3></div>
+              <ul class="rhist" id="roomHist"></ul>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
 
     <div id="player">
@@ -1054,7 +1236,7 @@ $('#saveCfg').onclick = () => {
   const clientId = $('#cid').value.trim(), lfKey = $('#lfk').value.trim();
   const bad = [];
   if(!/^[0-9a-f]{32}$/i.test(clientId)) bad.push('The Spotify Client ID should be 32 letters and numbers.');
-  if(!/^[0-9a-f]{32}$/i.test(lfKey)) bad.push('The Last.fm API key should be 32 letters and numbers.');
+  if(!(lfKey === '' && roomCfg) && !/^[0-9a-f]{32}$/i.test(lfKey)) bad.push('The Last.fm API key should be 32 letters and numbers.');
   if(bad.length){ $('#setupErr').innerHTML = bad.map(esc).join('<br>'); $('#setupErr').hidden = false; return; }
   cfg = {clientId, lfKey}; LS.set('cfg', cfg); $('#setupErr').hidden = true; show('login');
 };
@@ -1128,11 +1310,12 @@ document.addEventListener('keydown', e => {
 });
 
 /* =================== start =================== */
-(async function boot(){
+async function boot(){
   if(location.hostname === 'localhost'){ location.replace(location.href.replace('//localhost', '//127.0.0.1')); return; }
   if(location.protocol === 'file:') $('#fileWarn').hidden = false;
   if(/index\.html$/.test(location.pathname)) history.replaceState(null, '', REDIRECT.replace(location.origin, '') + location.search);
-  if(!cfg.clientId || !cfg.lfKey){ show('setup'); return; }
+  const invited = readInvite();
+  if(!cfg.clientId || (!cfg.lfKey && !roomCfg)){ show('setup'); return; }
   const q = new URLSearchParams(location.search);
   if(q.get('error')){ history.replaceState(null, '', REDIRECT); show('login'); $('#loginErr').textContent = q.get('error') === 'access_denied' ? 'Spotify access was not granted.' : 'Spotify sign-in failed: ' + q.get('error'); $('#loginErr').hidden = false; return; }
   if(q.get('code')){
@@ -1143,6 +1326,7 @@ document.addEventListener('keydown', e => {
   if(!tok){ show('login'); return; }
   show('app'); renderAll(); tickProgress(); poll(); renderSyncState();
   if(sync && sync.gistId) queued(pull);
+  if(invited || LS.get('inRoom', false)) setTimeout(enterRoom, 0);
   try{ await accessToken(); }catch(e){ return; }
   loadTopArtists();
   if(MOBILE){ await refreshDevices(); return; }
@@ -1150,7 +1334,485 @@ document.addEventListener('keydown', e => {
   await loadSDK();
   await refreshDevices();
   if(!sdkId) toast('The in-browser player didn’t start, so music will play through your Spotify app instead.', null, 7000);
-})();
+}
+window.addEventListener('DOMContentLoaded', boot);
+</script>
+<script>
+/* =====================================================================
+   DJ ROOM: friends take turns DJing (plug.dj style).
+   Shared state lives in Firebase Realtime Database:
+     rooms/{id}/meta    {name, owner, created}
+     rooms/{id}/users   {uid: {name, dino, t}}           (who's here)
+     rooms/{id}/state   {current, wait, djq, hist}       (changed only by transactions)
+     rooms/{id}/chat    {pushId: {uid, name, dino, text, t}}
+   ===================================================================== */
+const FB_VER = '10.14.1';
+const DINOS = ['🦖','🦕','🐊','🐉','🦎','🐢','🐸','🦩'];
+let roomCfg = LS.get('room', null);           // {fb, roomId, name}
+let roomMe = LS.get('roomMe', null);           // {name, dino}
+const R = {api:null, db:null, uid:null, offset:0, base:'', state:null, users:{}, meta:null, chat:[], unsub:[], playingId:null,
+           yt:null, ytReady:null, sc:null, scReady:null, spotOn:false, tick:null, advancing:false, lastSys:''};
+const rnow = () => Date.now() + R.offset;
+const rid = (n = 20) => { const a = new Uint8Array(n); crypto.getRandomValues(a); const cs = 'abcdefghijklmnopqrstuvwxyz0123456789'; return Array.from(a, x => cs[x % cs.length]).join(''); };
+const listOf = x => Array.isArray(x) ? x.filter(Boolean) : x ? Object.keys(x).sort((a, b) => a - b).map(k => x[k]).filter(Boolean) : [];
+const b64u = str => btoa(unescape(encodeURIComponent(str))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const unb64u = s => decodeURIComponent(escape(atob(s.replace(/-/g, '+').replace(/_/g, '/'))));
+const inRoom = () => document.body.classList.contains('room-on');
+
+/* ---------- Firebase ---------- */
+async function fbLoad(){
+  if(R.api) return R.api;
+  const b = 'https://www.gstatic.com/firebasejs/' + FB_VER + '/';
+  const [app, auth, db] = await Promise.all([import(b + 'firebase-app.js'), import(b + 'firebase-auth.js'), import(b + 'firebase-database.js')]);
+  R.api = {...app, ...auth, ...db}; return R.api;
+}
+async function fbConnect(){
+  const A = await fbLoad();
+  if(R.db) return A;
+  const app = A.getApps().find(a => a.name === 'dino') || A.initializeApp(roomCfg.fb, 'dino');
+  const auth = A.getAuth(app);
+  if(!auth.currentUser) await A.signInAnonymously(auth);
+  R.uid = auth.currentUser.uid;
+  R.db = A.getDatabase(app);
+  R.base = 'rooms/' + roomCfg.roomId;
+  A.onValue(A.ref(R.db, '.info/serverTimeOffset'), s => { R.offset = s.val() || 0; });
+  return A;
+}
+const rref = p => R.api.ref(R.db, R.base + (p ? '/' + p : ''));
+function parseFbConfig(txt){
+  const o = {}; const re = /(apiKey|authDomain|databaseURL|projectId|storageBucket|messagingSenderId|appId)\s*["']?\s*:\s*["']([^"']+)["']/g; let m;
+  while((m = re.exec(txt))) o[m[1]] = m[2];
+  return o;
+}
+
+/* ---------- entering / leaving ---------- */
+function stopRadio(){
+  if(cur){ sp('/me/player/pause', {method:'PUT', query:{device_id:deviceId}}).catch(() => {}); }
+  cur = null; batch = null; playing = false; seq++; render(); renderStations();
+}
+function showRoomPanel(which){ ['roomSetup', 'roomJoin', 'roomMain'].forEach(id => $('#' + id).hidden = id !== which); }
+async function enterRoom(){
+  if(sdk) try{ sdk.activateElement(); }catch(e){}
+  document.body.classList.add('room-on'); $('#roomView').hidden = false; $('#roomBtn').classList.add('on'); LS.set('inRoom', true);
+  stopRadio();
+  if(!roomCfg){ showRoomPanel('roomSetup'); return; }
+  if(!roomMe){ renderJoin(); showRoomPanel('roomJoin'); return; }
+  showRoomPanel('roomMain'); $('#roomTitle').textContent = roomCfg.name || 'DJ Room';
+  try{ await joinRoom(); }
+  catch(e){ console.warn(e); roomWarn('Couldn’t connect to the room: ' + e.message + '. Check your internet connection. If you set up the room, check the Firebase steps (anonymous sign-in on, rules published).'); }
+}
+function exitRoom(){
+  leaveRoom();
+  document.body.classList.remove('room-on'); $('#roomView').hidden = true; $('#roomBtn').classList.remove('on'); LS.set('inRoom', false);
+  renderAll();
+}
+async function joinRoom(){
+  const A = await fbConnect();
+  if(R.unsub.length) return; // already listening
+  const userRef = rref('users/' + R.uid);
+  R.unsub.push(A.onValue(A.ref(R.db, '.info/connected'), s => {
+    if(s.val() !== true) return;
+    A.onDisconnect(userRef).remove();
+    A.onDisconnect(rref('state/wait/' + R.uid)).remove();
+    A.set(userRef, {name:roomMe.name, dino:roomMe.dino, t:A.serverTimestamp()});
+  }));
+  R.unsub.push(A.onValue(rref('meta'), s => { R.meta = s.val() || {}; if(R.meta.name){ $('#roomTitle').textContent = R.meta.name; } renderRoom(); }));
+  R.unsub.push(A.onValue(rref('users'), s => { R.users = s.val() || {}; renderRoom(); }));
+  R.unsub.push(A.onValue(rref('state'), s => { R.state = s.val() || {}; onRoomState(); }));
+  R.unsub.push(A.onValue(A.query(rref('chat'), A.limitToLast(80)), s => { const v = s.val() || {}; R.chat = Object.keys(v).sort().map(k => v[k]); renderChat(); }));
+  clearInterval(R.tick); R.tick = setInterval(roomTick, 1000);
+  $('#roomBtnSub').textContent = 'You’re in ' + (roomCfg.name || 'the room');
+}
+function leaveRoom(){
+  clearInterval(R.tick); R.tick = null;
+  if(R.api && R.db){
+    R.unsub.forEach(u => { try{ u(); }catch(e){} }); R.unsub = [];
+    R.api.remove(rref('users/' + R.uid)).catch(() => {});
+    R.api.remove(rref('state/wait/' + R.uid)).catch(() => {});
+  }
+  stopMedia(true); R.playingId = null; R.state = null;
+  $('#roomBtnSub').textContent = 'Take turns DJing with friends';
+}
+function roomWarn(msg){ const w = $('#roomWarn'); w.hidden = !msg; w.textContent = msg || ''; }
+
+/* ---------- creating a room / invite ---------- */
+$('#copyRules').onclick = () => navigator.clipboard.writeText($('#fbRules').textContent).then(() => toast('Rules copied')).catch(() => {});
+$('#fbIn').oninput = () => { const c = parseFbConfig($('#fbIn').value); $('#dbUrlField').hidden = !(c.apiKey && !c.databaseURL); };
+$('#createRoom').onclick = async () => {
+  const c = parseFbConfig($('#fbIn').value);
+  if(!c.databaseURL && $('#dbUrl').value.trim()) c.databaseURL = $('#dbUrl').value.trim().replace(/\/+$/, '');
+  const err = m => { $('#roomSetupErr').textContent = m; $('#roomSetupErr').hidden = false; };
+  if(!c.apiKey || !c.projectId || !c.appId) return err('That doesn’t look like the full Firebase config. Copy the whole firebaseConfig = { … } block from step 4.');
+  if(!c.databaseURL){ $('#dbUrlField').hidden = false; return err('Also paste your Realtime Database URL (see the box above).'); }
+  $('#createRoom').disabled = true; $('#createRoom').textContent = 'Creating…';
+  try{
+    roomCfg = {fb:c, roomId:rid(20), name:($('#roomNameIn').value.trim() || 'Dino Room').slice(0, 40)};
+    const A = await fbConnect();
+    await A.set(rref('meta'), {name:roomCfg.name, owner:R.uid, created:A.serverTimestamp()});
+    LS.set('room', roomCfg); $('#roomSetupErr').hidden = true;
+    toast('Room created! Copy the invite link to send to your friends.', null, 6000);
+    enterRoom();
+  }catch(e){
+    console.warn(e); roomCfg = LS.get('room', null); R.db = null;
+    err(/permission|PERMISSION/.test(e.message) ? 'Firebase refused (permission denied). Check that the rules from step 3 are published and anonymous sign-in (step 2) is enabled.'
+      : /operation-not-allowed|admin-restricted/.test(e.code || e.message) ? 'Anonymous sign-in isn’t turned on yet (step 2).' : 'Couldn’t create the room: ' + e.message);
+  }finally{ $('#createRoom').disabled = false; $('#createRoom').textContent = 'Create my DJ Room'; }
+};
+function inviteLink(){ return REDIRECT + '#dj=' + b64u(JSON.stringify({c:cfg.clientId, f:roomCfg.fb, r:roomCfg.roomId, n:roomCfg.name})); }
+$('#inviteBtn').onclick = () => {
+  const link = inviteLink();
+  navigator.clipboard.writeText(link).then(() => toast('Invite link copied. Send it to your friends. Anyone with it can join.', null, 5000))
+    .catch(() => { roomWarn('Invite link (copy it): ' + link); });
+};
+function readInvite(){ // called at boot before anything else
+  const m = location.hash.match(/#dj=([A-Za-z0-9_-]+)/); if(!m) return false;
+  try{
+    const d = JSON.parse(unb64u(m[1]));
+    if(!d.f || !d.r) throw 0;
+    roomCfg = {fb:d.f, roomId:d.r, name:d.n || 'DJ Room'}; LS.set('room', roomCfg); LS.set('inRoom', true);
+    if(!cfg.clientId && d.c){ cfg = {clientId:d.c, lfKey:cfg.lfKey || ''}; LS.set('cfg', cfg); }
+  }catch(e){ toast('That invite link looks broken. Ask for a new one.'); }
+  history.replaceState(null, '', location.pathname + location.search);
+  return true;
+}
+$('#roomBtn').onclick = () => { inRoom() ? exitRoom() : enterRoom(); };
+$('#leaveRoom').onclick = exitRoom;
+
+/* ---------- join screen ---------- */
+let pickedDino = (roomMe && roomMe.dino) || DINOS[Math.floor(Math.random()*DINOS.length)];
+function renderJoin(){
+  $('#joinTitle').textContent = 'Join ' + ((roomCfg && roomCfg.name) || 'the room');
+  const box = $('#dinoPick'); box.innerHTML = '';
+  DINOS.forEach(d => { const b = document.createElement('button'); b.textContent = d; b.className = d === pickedDino ? 'on' : ''; b.onclick = () => { pickedDino = d; renderJoin(); }; box.appendChild(b); });
+  if(roomMe) $('#meName').value = roomMe.name;
+}
+$('#joinRoomBtn').onclick = () => {
+  const name = $('#meName').value.trim();
+  if(!name){ $('#roomJoinErr').textContent = 'Type a name first.'; $('#roomJoinErr').hidden = false; return; }
+  roomMe = {name:name.slice(0, 20), dino:pickedDino}; LS.set('roomMe', roomMe); $('#roomJoinErr').hidden = true;
+  enterRoom();
+};
+
+/* ---------- room actions (all shared changes go through transactions) ---------- */
+const tmini = t => ({src:t.src, id:t.id || '', uri:t.uri || '', url:t.url || '', title:t.title || '', artist:t.artist || '', img:t.img || '', dur:t.dur || 0});
+function advance(expectId, reason){
+  const A = R.api; if(!A || !R.db) return;
+  return A.runTransaction(rref('state'), st => {
+    st = st || {};
+    const curId = (st.current && st.current.id) || null;
+    if(expectId !== undefined && curId !== expectId) return; // someone else already moved on
+    const wait = st.wait || {}, djq = st.djq || {};
+    if(st.current){
+      const v = st.current.votes || {}; const vals = Object.values(v);
+      const h = {...tmini(st.current.track), by:st.current.by || '', dino:st.current.dino || '', w:vals.filter(x => x === 1).length, m:vals.filter(x => x === -1).length, g:Object.keys(st.current.grabs || {}).length, skipped:reason || ''};
+      st.hist = [h, ...listOf(st.hist)].slice(0, 40);
+      if(wait[st.current.uid] !== undefined) wait[st.current.uid] = Math.max(0, ...Object.values(wait)) + 1; // DJ goes to the back
+    }
+    const order = Object.entries(wait).sort((a, b) => a[1] - b[1]).map(e => e[0]);
+    let next = null;
+    for(const uid of order){
+      const q = listOf(djq[uid]);
+      if(q.length){ next = {uid, track:q[0]}; djq[uid] = q.slice(1); break; }
+      delete wait[uid]; // nothing left to play: step off the waitlist
+    }
+    st.wait = wait; st.djq = djq;
+    const u = next && R.users[next.uid];
+    st.current = next ? {id:rid(12), uid:next.uid, by:u ? u.name : 'DJ', dino:u ? u.dino : '🦖', track:next.track, startedAt:rnow() + 1500, votes:{}, grabs:{}} : null;
+    return st;
+  }).catch(e => console.warn('advance', e));
+}
+function vote(v){
+  const c = R.state && R.state.current; if(!c) return;
+  const mine = (c.votes || {})[R.uid];
+  R.api.runTransaction(rref('state/current'), cc => { if(!cc || cc.id !== c.id) return; cc.votes = cc.votes || {}; if(cc.votes[R.uid] === v) delete cc.votes[R.uid]; else cc.votes[R.uid] = v; return cc; });
+  if(v === 1 && mine !== 1 && c.track.src === 'spotify'){ // a woot on a Spotify song also teaches your radio
+    const st = station(); if(st) learn(st, c.track.artist.split(',')[0], 'like', .5);
+  }
+}
+function grab(){
+  const c = R.state && R.state.current; if(!c || (c.grabs || {})[R.uid]) return;
+  addToQueue(c.track, true);
+  R.api.runTransaction(rref('state/current'), cc => { if(!cc || cc.id !== c.id) return; cc.grabs = cc.grabs || {}; cc.grabs[R.uid] = true; return cc; });
+}
+function addToQueue(t, quiet){
+  R.api.runTransaction(rref('state/djq/' + R.uid), q => { q = listOf(q); if(q.length >= 100) return; q.push(tmini(t)); return q; })
+    .then(() => { if(!quiet) toast(`Added “${t.title}” to your queue`); else toast('Grabbed into your queue'); });
+}
+function editQueue(fn){ R.api.runTransaction(rref('state/djq/' + R.uid), q => fn(listOf(q))); }
+function toggleWait(){
+  const w = (R.state && R.state.wait) || {};
+  if(w[R.uid] !== undefined){ R.api.remove(rref('state/wait/' + R.uid)); return; }
+  if(!listOf(R.state && R.state.djq && R.state.djq[R.uid]).length){ toast('Add at least one song to your queue first'); $('#qSearch').focus(); return; }
+  R.api.runTransaction(rref('state/wait'), w2 => { w2 = w2 || {}; if(w2[R.uid] === undefined) w2[R.uid] = Math.max(0, ...Object.values(w2)) + 1; return w2; });
+}
+function chatSay(text, sys){
+  if(!R.db) return;
+  R.api.push(rref('chat'), {uid:R.uid, name:roomMe.name, dino:roomMe.dino, text:String(text).slice(0, 300), t:R.api.serverTimestamp(), sys:!!sys});
+}
+$('#bWoot').onclick = () => vote(1);
+$('#bMeh').onclick = () => vote(-1);
+$('#bGrab').onclick = grab;
+$('#bRSkip').onclick = () => { const c = R.state && R.state.current; if(c){ advance(c.id, 'skipped'); chatSay(`skipped “${c.track.title}”`, true); } };
+$('#bResync').onclick = () => { if(sdk) try{ sdk.activateElement(); }catch(e){} R.playingId = null; onRoomState(true); };
+$('#waitBtn').onclick = toggleWait;
+$('#chatForm').onsubmit = e => { e.preventDefault(); const v = $('#chatIn').value.trim(); if(v){ chatSay(v); $('#chatIn').value = ''; } };
+
+/* ---------- the clock: ends songs, meh-skips, starts the next DJ ---------- */
+function roomTick(){
+  renderProgress();
+  const st = R.state; if(!st || !R.db) return;
+  const c = st.current, now = rnow();
+  if(c){
+    const dur = c.track.dur || 0;
+    if(dur && now > c.startedAt + dur + 1500) return advance(c.id);
+    if(!dur && now > c.startedAt + 15*60*1000) return advance(c.id, 'timeout');
+    const online = Object.keys(R.users).length, mehs = Object.values(c.votes || {}).filter(v => v === -1).length;
+    if(online >= 2 && mehs >= Math.ceil(online / 2) && now > c.startedAt + 3000){ if(c.uid === R.uid || online <= 2 || mehs > 0) return advance(c.id, 'meh'); }
+  } else {
+    const anyone = Object.keys(st.wait || {}).some(uid => listOf((st.djq || {})[uid]).length);
+    if(anyone) advance(null);
+  }
+}
+
+/* ---------- playing the current song on this device ---------- */
+function onRoomState(force){
+  const c = R.state && R.state.current;
+  const id = c ? c.id : null;
+  if(force || id !== R.playingId){ R.playingId = id; playCurrent(c); }
+  renderRoom();
+}
+async function stopMedia(all, keepSpotify){
+  try{ R.yt && R.yt.stopVideo && R.yt.stopVideo(); }catch(e){}
+  try{ R.sc && R.sc.pause(); }catch(e){}
+  $('#ytBox').hidden = true; $('#scBox').hidden = true; $('#tapPlay').hidden = true;
+  if(R.spotOn && !keepSpotify){ R.spotOn = false; sp('/me/player/pause', {method:'PUT', query:{device_id:deviceId}}).catch(() => {}); }
+}
+let playTimer = null;
+async function playCurrent(c){
+  clearTimeout(playTimer);
+  if(!c){ stopMedia(); return; }
+  const wait = c.startedAt - rnow();
+  if(wait > 50){ stopMedia(false, c.track.src === 'spotify'); playTimer = setTimeout(() => { if(R.playingId === c.id) playCurrent(c); }, wait); return; }
+  const pos = Math.max(0, rnow() - c.startedAt), t = c.track;
+  roomWarn('');
+  if(t.src === 'spotify'){
+    stopMedia(false, true);
+    try{
+      if(!deviceId) await refreshDevices();
+      if(!deviceId){ roomWarn(MOBILE ? 'Open the Spotify app on this phone so you can hear Spotify songs, then tap ⟳ Sync.' : 'Open Spotify on this computer or your phone, pick it under “Playing on”, then tap ⟳ Sync.'); return; }
+      await sp('/me/player/play', {method:'PUT', query:{device_id:deviceId}, body:{uris:[t.uri], position_ms:Math.round(pos)}});
+      R.spotOn = true;
+    }catch(e){
+      roomWarn(e.status === 403 ? 'Spotify refused to play this for your account. Ask the room owner to add your Spotify email under User Management in their Spotify developer app (and make sure you have Premium).'
+        : e.status === 404 ? 'Spotify isn’t open on your selected device. Open Spotify, then tap ⟳ Sync.' : 'Couldn’t play on Spotify: ' + e.message);
+    }
+  } else if(t.src === 'youtube'){
+    stopMedia(false);
+    await ensureYT();
+    if(R.playingId !== c.id) return;
+    $('#ytBox').hidden = false;
+    R.ytFor = c.id; R.ytStarted = false;
+    R.yt.loadVideoById({videoId:t.id, startSeconds:pos/1000});
+    setTimeout(() => { if(R.playingId === c.id && !R.ytStarted) $('#tapPlay').hidden = false; }, 3000);
+  } else if(t.src === 'soundcloud'){
+    stopMedia(false);
+    await ensureSC(t.url);
+    if(R.playingId !== c.id) return;
+    $('#scBox').hidden = false; R.scFor = c.id; R.scStarted = false;
+    R.sc.load(t.url, {auto_play:true, visual:true, show_comments:false, callback:() => {
+      R.sc.seekTo(Math.max(0, rnow() - c.startedAt)); R.sc.play();
+      R.sc.getDuration(d => { if(d && !c.track.dur) setDur(c.id, d); });
+    }});
+    setTimeout(() => { if(R.playingId === c.id && !R.scStarted) $('#tapPlay').hidden = false; }, 3500);
+  }
+}
+$('#tapPlay').onclick = () => {
+  const c = R.state && R.state.current; if(!c) return;
+  const pos = Math.max(0, rnow() - c.startedAt);
+  if(c.track.src === 'youtube' && R.yt){ R.yt.seekTo(pos/1000, true); R.yt.playVideo(); }
+  if(c.track.src === 'soundcloud' && R.sc){ R.sc.seekTo(pos); R.sc.play(); }
+  $('#tapPlay').hidden = true;
+};
+function setDur(id, ms){ R.api.runTransaction(rref('state/current'), cc => { if(!cc || cc.id !== id || (cc.track && cc.track.dur)) return; cc.track.dur = Math.round(ms); return cc; }); }
+function ensureYT(){
+  if(R.ytReady) return R.ytReady;
+  R.ytReady = new Promise(res => {
+    window.onYouTubeIframeAPIReady = () => {
+      R.yt = new YT.Player('ytPlayer', {width:'100%', height:'100%', playerVars:{playsinline:1, rel:0, modestbranding:1},
+        events:{
+          onReady:() => res(),
+          onStateChange:e => {
+            const c = R.state && R.state.current; if(!c || R.ytFor !== c.id) return;
+            if(e.data === 1){ // playing
+              R.ytStarted = true; $('#tapPlay').hidden = true;
+              const d = R.yt.getDuration(); if(d && !c.track.dur) setDur(c.id, d*1000);
+              const want = (rnow() - c.startedAt)/1000; if(Math.abs(R.yt.getCurrentTime() - want) > 3) R.yt.seekTo(want, true);
+              const vd = R.yt.getVideoData && R.yt.getVideoData();
+              if(vd && vd.title && /^YouTube video/.test(c.track.title)) R.api.runTransaction(rref('state/current'), cc => { if(!cc || cc.id !== c.id) return; cc.track.title = vd.title; cc.track.artist = vd.author || cc.track.artist; return cc; });
+            }
+            if(e.data === 0) advance(c.id); // ended
+          },
+          onError:e => {
+            const c = R.state && R.state.current; if(!c) return;
+            roomWarn(e.data === 101 || e.data === 150 ? 'This video’s owner doesn’t allow it to play on other sites. Skipping.' : 'YouTube couldn’t play this video. Skipping.');
+            setTimeout(() => advance(c.id, 'error'), 2500);
+          }
+        }});
+    };
+    const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; s.onerror = () => { roomWarn('YouTube didn’t load. Check your connection.'); }; document.head.appendChild(s);
+  });
+  return R.ytReady;
+}
+function ensureSC(firstUrl){
+  if(R.scReady) return R.scReady;
+  R.scReady = new Promise(res => {
+    const go = () => {
+      const f = document.createElement('iframe'); f.allow = 'autoplay'; f.width = '100%'; f.height = '100%'; f.style.border = '0';
+      f.src = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(firstUrl) + '&auto_play=false&visual=true';
+      $('#scBox').appendChild(f);
+      R.sc = SC.Widget(f);
+      R.sc.bind(SC.Widget.Events.READY, () => res());
+      R.sc.bind(SC.Widget.Events.PLAY, () => { R.scStarted = true; $('#tapPlay').hidden = true; });
+      R.sc.bind(SC.Widget.Events.FINISH, () => { const c = R.state && R.state.current; if(c && R.scFor === c.id) advance(c.id); });
+      R.sc.bind(SC.Widget.Events.ERROR, () => { const c = R.state && R.state.current; if(c){ roomWarn('SoundCloud couldn’t play this track. Skipping.'); setTimeout(() => advance(c.id, 'error'), 2500); } });
+    };
+    if(window.SC && SC.Widget) return go();
+    const s = document.createElement('script'); s.src = 'https://w.soundcloud.com/player/api.js'; s.onload = go; document.head.appendChild(s);
+  });
+  return R.scReady;
+}
+
+/* ---------- adding songs: Spotify search or YouTube/SoundCloud links ---------- */
+function parseLink(u){
+  let m;
+  if((m = u.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/|music\.youtube\.com\/watch\?(?:.*&)?v=)([A-Za-z0-9_-]{11})/))) return {src:'youtube', id:m[1], url:'https://www.youtube.com/watch?v=' + m[1]};
+  if((m = u.match(/https?:\/\/(?:www\.|m\.|on\.)?soundcloud\.com\/[^\s?#]+/))) return {src:'soundcloud', url:m[0].replace('//m.', '//')};
+  if((m = u.match(/open\.spotify\.com\/(?:intl-[a-z]+\/)?track\/([A-Za-z0-9]{22})/))) return {src:'spotify', id:m[1]};
+  return null;
+}
+async function linkMeta(L){
+  let meta = {};
+  try{ const r = await fetch('https://noembed.com/embed?url=' + encodeURIComponent(L.url)); meta = await r.json(); if(meta.error) meta = {}; }catch(e){}
+  if(!meta.title && L.src === 'soundcloud'){ try{ meta = await (await fetch('https://soundcloud.com/oembed?format=json&url=' + encodeURIComponent(L.url))).json(); }catch(e){} }
+  if(L.src === 'youtube') return {src:'youtube', id:L.id, url:L.url, title:meta.title || 'YouTube video ' + L.id, artist:meta.author_name || 'YouTube', img:meta.thumbnail_url || `https://i.ytimg.com/vi/${L.id}/hqdefault.jpg`, dur:0};
+  const tt = (meta.title || '').split(' by ');
+  return {src:'soundcloud', url:L.url, title:(tt.length > 1 ? tt.slice(0, -1).join(' by ') : meta.title) || L.url.split('/').pop().replace(/-/g, ' '), artist:meta.author_name || (tt.length > 1 ? tt[tt.length - 1] : 'SoundCloud'), img:meta.thumbnail_url || '', dur:0};
+}
+const spMeta = t => { const m = meta(t); return {src:'spotify', id:m.id, uri:m.uri, title:m.name, artist:m.artist, img:m.img, dur:m.dur}; };
+let qT;
+$('#qSearch').oninput = () => { clearTimeout(qT); qT = setTimeout(qSearch, 350); };
+$('#qSearch').onkeydown = e => { if(e.key === 'Enter'){ clearTimeout(qT); qSearch(); } };
+async function qSearch(){
+  const q = $('#qSearch').value.trim(), box = $('#qResults');
+  if(!q){ box.innerHTML = ''; return; }
+  const L = parseLink(q);
+  if(L){
+    box.innerHTML = '<p class="small">Looking up that link…</p>';
+    let t = null;
+    try{ t = L.src === 'spotify' ? spMeta(await sp('/tracks/' + L.id)) : await linkMeta(L); }catch(e){ box.innerHTML = '<p class="small">Couldn’t read that link. For Spotify, search by name instead.</p>'; return; }
+    addToQueue(t); $('#qSearch').value = ''; box.innerHTML = ''; return;
+  }
+  if(/^https?:/.test(q)){ box.innerHTML = '<p class="small">Only YouTube, SoundCloud and Spotify song links work here.</p>'; return; }
+  try{
+    const j = await sp('/search', {query:{q, type:'track', limit:8}});
+    if($('#qSearch').value.trim() !== q) return;
+    const items = ((j && j.tracks && j.tracks.items) || []).map(spMeta);
+    box.innerHTML = items.length ? '' : '<p class="small">No Spotify matches. You can also paste a YouTube or SoundCloud link.</p>';
+    items.forEach(t => {
+      const d = document.createElement('div'); d.className = 'qres';
+      d.innerHTML = `<div class="thumb" style="${t.img ? `background-image:url('${esc(t.img)}')` : ''}"></div><div class="qt"><div>${esc(t.title)}</div><div class="a">${esc(t.artist)} · ${fmt(t.dur)}</div></div><button class="qbtn add">+ Add</button>`;
+      d.querySelector('button').onclick = () => { addToQueue(t); d.remove(); };
+      box.appendChild(d);
+    });
+  }catch(e){ box.innerHTML = `<p class="small">Search failed: ${esc(e.message)}</p>`; }
+}
+
+/* ---------- rendering ---------- */
+const srcLabel = {spotify:'Spotify', youtube:'YouTube', soundcloud:'SoundCloud'};
+function renderRoom(){
+  if(!inRoom() || $('#roomMain').hidden) return;
+  const st = R.state || {}, c = st.current, users = R.users;
+  // now playing
+  const t = c && c.track;
+  $('#rTitle').textContent = t ? t.title : 'Nobody’s DJing yet';
+  $('#rArtist').textContent = t ? t.artist : 'Add songs to your queue, then join the waitlist to DJ.';
+  $('#srcBadge').textContent = t ? srcLabel[t.src] : ''; $('#srcBadge').className = 'srcbadge ' + (t ? t.src : ''); $('#srcBadge').hidden = !t;
+  $('#djBy').textContent = c ? `${c.dino || '🦖'} ${c.by} is DJing` : '';
+  const art = $('#mArt'); art.style.backgroundImage = t && t.img ? `url('${t.img}')` : ''; art.classList.toggle('empty', !(t && t.img));
+  const votes = (c && c.votes) || {}, vals = Object.values(votes);
+  $('#nWoot').textContent = vals.filter(v => v === 1).length; $('#nMeh').textContent = vals.filter(v => v === -1).length; $('#nGrab').textContent = Object.keys((c && c.grabs) || {}).length;
+  $('#bWoot').classList.toggle('on', votes[R.uid] === 1); $('#bMeh').classList.toggle('on', votes[R.uid] === -1); $('#bGrab').classList.toggle('on', !!(c && c.grabs && c.grabs[R.uid]));
+  ['#bWoot', '#bMeh', '#bGrab', '#bResync'].forEach(id => $(id).disabled = !c);
+  const owner = R.meta && R.meta.owner === R.uid;
+  $('#bRSkip').hidden = !(c && (c.uid === R.uid || owner));
+  const online = Object.keys(users).length;
+  $('#mehNote').textContent = c && online >= 2 ? `${Math.ceil(online/2)} mehs skip the song · ${online} in the room` : online ? `${online} in the room` : '';
+  // dance floor
+  const fl = $('#floor'); fl.innerHTML = '';
+  const ids = Object.keys(users).sort((a, b) => (c && a === c.uid ? -1 : c && b === c.uid ? 1 : (users[a].t || 0) - (users[b].t || 0)));
+  if(!ids.length) fl.innerHTML = '<span class="small">Connecting…</span>';
+  ids.forEach(uid => {
+    const u = users[uid], v = votes[uid], isDj = c && c.uid === uid;
+    const d = document.createElement('div'); d.className = 'dancer' + (isDj ? ' dj' : '') + (v === 1 ? ' woot' : v === -1 ? ' meh' : '');
+    d.innerHTML = `<div class="tag">${isDj ? '🎧' : v === 1 ? '👍' : v === -1 ? '👎' : (c && c.grabs && c.grabs[uid]) ? '★' : ''}</div><div class="bod">${esc(u.dino || '🦖')}</div><div class="nm">${esc(u.name)}${uid === R.uid ? ' (you)' : ''}</div>`;
+    fl.appendChild(d);
+  });
+  // waitlist
+  const wait = st.wait || {}, order = Object.entries(wait).sort((a, b) => a[1] - b[1]).map(e => e[0]);
+  const wl = $('#waitList'); wl.innerHTML = '';
+  if(!order.length) wl.innerHTML = '<li class="small" style="background:none">Nobody in line. Join to DJ!</li>';
+  order.forEach((uid, i) => {
+    const u = users[uid] || {name:'(away)', dino:'💤'}, li = document.createElement('li');
+    if(uid === R.uid) li.className = 'me';
+    const n = listOf((st.djq || {})[uid]).length;
+    li.innerHTML = `<span class="pos">${c && c.uid === uid ? '🎧' : i + 1}</span><span style="font-size:20px">${esc(u.dino || '🦖')}</span><span style="flex:1">${esc(u.name)}</span><span class="small">${n} song${n === 1 ? '' : 's'}</span>`;
+    wl.appendChild(li);
+  });
+  const inLine = wait[R.uid] !== undefined;
+  $('#waitBtn').textContent = inLine ? 'Leave waitlist' : 'Join waitlist';
+  $('#waitBtn').className = 'btn small-btn ' + (inLine ? 'ghost' : 'primary');
+  // my queue
+  const q = listOf((st.djq || {})[R.uid]), mq = $('#myQueue'); mq.innerHTML = '';
+  $('#qCount').textContent = q.length ? `${q.length} song${q.length === 1 ? '' : 's'}` : '';
+  if(!q.length) mq.innerHTML = '<li class="small" style="background:none">Your queue is empty. Search above to add songs. When it’s your turn, the top song plays.</li>';
+  q.forEach((t, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<div class="thumb" style="${t.img ? `background-image:url('${esc(t.img)}')` : ''}">${t.img ? '' : t.src === 'youtube' ? '▶' : t.src === 'soundcloud' ? '☁' : '♫'}</div><div class="qt"><div>${esc(t.title)}</div><div class="a">${esc(srcLabel[t.src])} · ${esc(t.artist)}</div></div>
+      ${i ? '<button class="qbtn" data-a="top" title="Move to top">⤒</button>' : ''}<button class="qbtn" data-a="del" title="Remove">✕</button>`;
+    li.querySelectorAll('button').forEach(b => b.onclick = () => editQueue(arr => { if(!arr[i]) return; const [x] = arr.splice(i, 1); if(b.dataset.a === 'top') arr.unshift(x); return arr; }));
+    mq.appendChild(li);
+  });
+  // history
+  const hl = $('#roomHist'); hl.innerHTML = '';
+  const hist = listOf(st.hist);
+  if(!hist.length) hl.innerHTML = '<li class="small">Nothing played yet.</li>';
+  hist.slice(0, 25).forEach(h => {
+    const li = document.createElement('li');
+    li.innerHTML = `<div class="thumb" style="${h.img ? `background-image:url('${esc(h.img)}')` : ''}"></div><div class="qt"><div>${esc(h.title)}</div><div class="a">${esc(h.dino || '')} ${esc(h.by)} · ${esc(srcLabel[h.src] || '')}${h.skipped === 'meh' ? ' · meh’d off' : h.skipped === 'skipped' ? ' · skipped' : ''}</div></div><span class="sc">👍${h.w || 0} 👎${h.m || 0}${h.g ? ' ★' + h.g : ''}</span><button class="qbtn add" title="Add to my queue">+</button>`;
+    li.querySelector('button').onclick = () => addToQueue(h);
+    hl.appendChild(li);
+  });
+  renderProgress();
+}
+function renderProgress(){
+  const c = R.state && R.state.current;
+  if(!c){ $('#rCur').textContent = '0:00'; $('#rDur').textContent = '0:00'; $('#rFill').style.width = '0'; return; }
+  const pos = Math.max(0, rnow() - c.startedAt), dur = c.track.dur || 0;
+  $('#rCur').textContent = fmt(pos); $('#rDur').textContent = dur ? fmt(dur) : '–:––';
+  $('#rFill').style.width = dur ? Math.min(100, pos/dur*100) + '%' : '0';
+}
+function renderChat(){
+  const box = $('#chatLog'); if(!box) return;
+  const atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 40;
+  box.innerHTML = '';
+  if(!R.chat.length) box.innerHTML = '<div class="msg sys">Say hi 👋</div>';
+  R.chat.forEach(m => {
+    const d = document.createElement('div'); d.className = 'msg' + (m.sys ? ' sys' : '');
+    d.innerHTML = m.sys ? `${esc(m.dino || '')} ${esc(m.name)} ${esc(m.text)}` : `<span class="who">${esc(m.dino || '')} ${esc(m.name)}</span>${esc(m.text)}`;
+    box.appendChild(d);
+  });
+  if(atBottom) box.scrollTop = box.scrollHeight;
+}
 </script>
 </body>
 </html>
