@@ -228,7 +228,8 @@ code{background:var(--bg);border:1px solid var(--line);padding:2px 7px;border-ra
       <div class="devrow"><select id="devSel"></select><button class="iconbtn" id="devRefresh" title="Refresh devices">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></button></div>
       <p class="small" id="devHint"></p>
-      <p class="small"><a href="#" id="logout">Sign out</a> · <a href="#" id="editKeys2">Change keys</a></p>
+      <p class="small"><a href="#" id="syncLink">Sync devices</a> · <a href="#" id="logout">Sign out</a> · <a href="#" id="editKeys2">Change keys</a></p>
+      <p class="small" id="syncState"></p>
     </div>
   </aside>
 
@@ -288,6 +289,32 @@ code{background:var(--bg);border:1px solid var(--line);padding:2px 7px;border-ra
     <div class="mhead"><h3 id="mTitle">New station</h3><button id="mClose" aria-label="Close">×</button></div>
     <input id="mSearch" placeholder="Search for an artist, song or genre" autocomplete="off">
     <div id="mResults"></div>
+  </div>
+</div>
+<div class="modal-bg" id="syncModal" hidden>
+  <div class="modal" style="overflow:auto">
+    <div class="mhead"><h3>Sync between devices</h3><button id="syncClose" aria-label="Close">×</button></div>
+    <p class="small" style="margin:0 0 10px;font-size:13px;color:var(--muted)">Keeps your stations, thumbs and what each station has learned the same on your PC and phone. Everything is stored in a private file in your own GitHub account.</p>
+    <div id="syncOn" hidden>
+      <div class="warn" style="background:#4fd1a514;border-color:#4fd1a555;color:#bff3df" id="syncStatus"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="syncNow">Sync now</button><button class="btn ghost" id="syncShowToken">Show token for my other device</button><button class="btn ghost" id="syncOff">Turn off sync on this device</button></div>
+      <div class="field" id="tokenShow" hidden><label>Paste this token into Dino Radio on your other device (Sync devices)</label><input readonly id="tokenShowVal"><button class="btn ghost" id="tokenCopy" style="align-self:flex-start;padding:6px 12px">Copy</button></div>
+    </div>
+    <div id="syncSetup">
+      <ol class="steps" style="margin:10px 0">
+        <li><b>Make a GitHub token (one time)</b><div>Open <a href="https://github.com/settings/tokens/new?scopes=gist&description=Dino%20Radio%20sync" target="_blank" rel="noopener">this GitHub page</a>. The name and the <b>gist</b> permission are already filled in. Set <b>Expiration</b> to <b>No expiration</b>, click <b>Generate token</b> at the bottom, and copy the token (it starts with <code>ghp_</code>).</div></li>
+        <li><b>Paste it here</b>
+          <div class="field"><input id="tokenIn" placeholder="ghp_…" autocomplete="off" spellcheck="false"></div>
+          <div id="syncErr" class="err" hidden></div>
+          <button class="btn primary" id="syncConnect">Turn on sync</button></li>
+        <li><b>On your other device</b><div>Open Dino Radio → <b>Sync devices</b>, then paste the same token. Stations from both devices are combined.</div></li>
+      </ol>
+    </div>
+    <div class="rgroup" style="margin-top:22px">No GitHub? Copy and paste instead</div>
+    <p class="small" style="margin:0 4px 8px;font-size:13px">One-time copy: copy on one device, send it to yourself, and paste it on the other.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:0 4px"><button class="btn ghost" id="exportBtn">Copy my stations</button></div>
+    <div class="field" style="margin:10px 4px 0"><textarea id="importIn" rows="3" placeholder="Paste stations code here" style="padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:inherit;font:12px ui-monospace,Consolas,monospace;resize:vertical"></textarea>
+      <button class="btn ghost" id="importBtn" style="align-self:flex-start">Add these stations</button></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -380,7 +407,10 @@ const safe = p => p.catch(e => { if(e.lfCode === 10 || e.lfCode === 26){ toast('
 /* =================== stations + candidate pools =================== */
 let stations = LS.get('stations', []);
 let currentId = LS.get('current', stations[0] && stations[0].id);
-const save = () => { LS.set('stations', stations); LS.set('current', currentId); };
+const stJson = st => JSON.stringify({...st, u:0, _needsRetune:0});
+const lastJ = {}; stations.forEach(st => lastJ[st.id] = stJson(st));
+function stamp(){ for(const st of stations){ const j = stJson(st); if(lastJ[st.id] !== j){ if(lastJ[st.id] !== undefined || !st.u) st.u = Date.now(); lastJ[st.id] = j; } } }
+const save = () => { stamp(); LS.set('stations', stations); LS.set('current', currentId); schedulePush(); };
 const station = () => stations.find(s => s.id === currentId) || null;
 const pools = new Map(); // station id -> {map, ready:Promise}
 
@@ -694,7 +724,80 @@ function onState(s){
   toast('Spotify started playing something else, so Dino Radio paused. Press play to come back.', null, 6000);
 }
 let pollT = null;
-document.addEventListener('visibilitychange', () => { if(!document.hidden) poll(); });
+document.addEventListener('visibilitychange', () => { if(!document.hidden){ poll(); pull().catch(() => {}); } });
+
+/* =================== sync (private GitHub gist) =================== */
+let sync = LS.get('sync', null);          // {token, gistId}
+let deleted = LS.get('deleted', {});      // station id -> time deleted
+let lastSync = 0, syncErr = '', pushT = null, syncBusy = Promise.resolve();
+const SYNC_FILE = 'dino-radio-sync.json';
+async function gh(path, o = {}){
+  const r = await fetch('https://api.github.com' + path, {method:o.method || 'GET', cache:'no-store',
+    headers:{Authorization:'Bearer ' + sync.token, Accept:'application/vnd.github+json', ...(o.body ? {'Content-Type':'application/json'} : {})},
+    body:o.body ? JSON.stringify(o.body) : undefined});
+  if(!r.ok){ const e = new Error(r.status === 401 ? 'GitHub rejected the token' : r.status === 404 ? 'Sync file not found' : 'GitHub error ' + r.status); e.status = r.status; throw e; }
+  return r.status === 204 ? null : r.json();
+}
+const payload = () => JSON.stringify({v:1, app:'dino-radio', stations:stations.map(st => ({...st, _needsRetune:undefined, recent:st.recent.slice(-150)})), deleted});
+function mergeData(data){
+  if(!data || !Array.isArray(data.stations)) throw new Error('That isn’t Dino Radio station data');
+  let changed = false;
+  for(const [id, t] of Object.entries(data.deleted || {})) if(!deleted[id] || deleted[id] < t) deleted[id] = t;
+  LS.set('deleted', deleted);
+  const n0 = stations.length;
+  stations = stations.filter(st => !(deleted[st.id] && deleted[st.id] >= (st.u || 0)));
+  if(stations.length !== n0) changed = true;
+  for(const rs of data.stations){
+    if(!rs || !rs.id || (deleted[rs.id] && deleted[rs.id] >= (rs.u || 0))) continue;
+    const i = stations.findIndex(st => st.id === rs.id);
+    if(i < 0){ stations.push(rs); changed = true; }
+    else if((rs.u || 0) > (stations[i].u || 0)){
+      if(JSON.stringify(rs.seeds) !== JSON.stringify(stations[i].seeds)) pools.delete(rs.id);
+      stations[i] = rs; changed = true;
+    }
+    const cur2 = stations.find(st => st.id === rs.id); if(cur2) lastJ[rs.id] = stJson(cur2);
+  }
+  if(changed){
+    if(!station()) currentId = stations[0] ? stations[0].id : null;
+    LS.set('stations', stations); LS.set('current', currentId);
+    if(!$('#app').hidden) renderAll();
+  }
+  return changed;
+}
+async function pull(){
+  if(!sync || !sync.gistId) return false;
+  const g = await gh('/gists/' + sync.gistId);
+  const f = g.files && g.files[SYNC_FILE]; if(!f) return false;
+  let content = f.content;
+  if(f.truncated) content = await (await fetch(f.raw_url, {cache:'no-store'})).text();
+  const changed = mergeData(JSON.parse(content || '{"stations":[]}'));
+  lastSync = Date.now(); syncErr = ''; renderSyncState();
+  return changed;
+}
+async function push(){
+  if(!sync || !sync.gistId) return;
+  await pull();
+  await gh('/gists/' + sync.gistId, {method:'PATCH', body:{files:{[SYNC_FILE]:{content:payload()}}}});
+  lastSync = Date.now(); syncErr = ''; renderSyncState();
+}
+const queued = fn => (syncBusy = syncBusy.then(fn).catch(e => { syncErr = e.message; renderSyncState(); console.warn('sync', e); }));
+function schedulePush(){ if(!sync || !sync.gistId) return; clearTimeout(pushT); pushT = setTimeout(() => queued(push), 3000); }
+async function connectSync(token){
+  sync = {token};
+  const list = await gh('/gists?per_page=100');
+  const found = (list || []).find(g => g.files && g.files[SYNC_FILE]);
+  if(found) sync.gistId = found.id;
+  else { const c = await gh('/gists', {method:'POST', body:{description:'Dino Radio stations (sync)', public:false, files:{[SYNC_FILE]:{content:payload()}}}}); sync.gistId = c.id; }
+  LS.set('sync', sync);
+  await push();
+}
+function renderSyncState(){
+  const on = !!(sync && sync.gistId);
+  $('#syncState').textContent = !on ? '' : syncErr ? '⚠ Sync problem: ' + syncErr : lastSync ? 'Synced ' + new Date(lastSync).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}) : 'Sync on';
+  $('#syncOn').hidden = !on; $('#syncSetup').hidden = on;
+  $('#syncStatus').textContent = syncErr ? 'Sync problem: ' + syncErr + '. If the token was deleted or expired, turn sync off and on again with a new token.' : 'Sync is on. ' + (lastSync ? 'Last synced at ' + new Date(lastSync).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}) + '.' : '');
+}
+setInterval(() => { if(sync && sync.gistId && !document.hidden) queued(pull); }, 60000);
 async function poll(){
   clearTimeout(pollT);
   if(cur && !isSdk() && document.visibilityState){
@@ -787,10 +890,10 @@ function switchStation(id){
 }
 function deleteStation(id){
   const i = stations.findIndex(s => s.id === id); if(i < 0) return;
-  const st = stations[i]; stations.splice(i, 1); pools.delete(id);
+  const st = stations[i]; stations.splice(i, 1); pools.delete(id); deleted[id] = Date.now(); LS.set('deleted', deleted);
   if(currentId === id){ currentId = stations[0] ? stations[0].id : null; if(cur){ sp('/me/player/pause', {method:'PUT', query:{device_id:deviceId}}).catch(() => {}); } cur = null; batch = null; playing = false; }
   save(); renderAll();
-  toast(`Deleted ${st.name}`, {label:'Undo', fn:() => { stations.splice(i, 0, st); save(); renderAll(); }});
+  toast(`Deleted ${st.name}`, {label:'Undo', fn:() => { delete deleted[id]; LS.set('deleted', deleted); st.u = Date.now(); stations.splice(i, 0, st); save(); renderAll(); }});
 }
 
 /* =================== rendering =================== */
@@ -957,6 +1060,36 @@ $('#saveCfg').onclick = () => {
 };
 $('#loginBtn').onclick = login;
 $('#editKeys').onclick = $('#editKeys2').onclick = e => { e.preventDefault(); show('setup'); };
+$('#syncLink').onclick = e => { e.preventDefault(); $('#syncErr').hidden = true; $('#tokenShow').hidden = true; renderSyncState(); $('#syncModal').hidden = false; };
+$('#syncClose').onclick = () => { $('#syncModal').hidden = true; };
+$('#syncModal').onclick = e => { if(e.target.id === 'syncModal') $('#syncModal').hidden = true; };
+$('#syncConnect').onclick = async () => {
+  const t = $('#tokenIn').value.trim();
+  if(!/^(ghp_|github_pat_)[A-Za-z0-9_]{20,}$/.test(t)){ $('#syncErr').textContent = 'That doesn’t look like a GitHub token. It should start with ghp_'; $('#syncErr').hidden = false; return; }
+  $('#syncConnect').disabled = true; $('#syncConnect').textContent = 'Connecting…';
+  try{ await connectSync(t); $('#syncErr').hidden = true; $('#tokenIn').value = ''; toast('Sync is on. Your stations are combined across devices.'); }
+  catch(e){ sync = null; LS.del('sync'); $('#syncErr').textContent = e.status === 401 ? 'GitHub rejected that token. Make a new one with the link in step 1.' : e.status === 404 || e.status === 403 ? 'That token doesn’t have the “gist” permission. Make a new one with the link in step 1.' : 'Couldn’t connect: ' + e.message; $('#syncErr').hidden = false; }
+  finally{ $('#syncConnect').disabled = false; $('#syncConnect').textContent = 'Turn on sync'; renderSyncState(); }
+};
+$('#syncNow').onclick = () => queued(push).then(() => { if(!syncErr) toast('Synced'); });
+$('#syncOff').onclick = () => { sync = null; LS.del('sync'); lastSync = 0; syncErr = ''; renderSyncState(); toast('Sync is off on this device. Your stations stay here.'); };
+$('#syncShowToken').onclick = () => { $('#tokenShowVal').value = sync ? sync.token : ''; $('#tokenShow').hidden = false; };
+$('#tokenCopy').onclick = () => navigator.clipboard.writeText($('#tokenShowVal').value).then(() => toast('Token copied. Keep it private.')).catch(() => { $('#tokenShowVal').select(); });
+$('#exportBtn').onclick = () => {
+  const code = 'DINO1:' + btoa(unescape(encodeURIComponent(payload())));
+  navigator.clipboard.writeText(code).then(() => toast('Copied. Send it to yourself and paste it on your other device.'))
+    .catch(() => { $('#importIn').value = code; $('#importIn').select(); toast('Select the code in the box and copy it'); });
+};
+$('#importBtn').onclick = () => {
+  try{
+    const raw = $('#importIn').value.trim().replace(/^DINO1:/, '');
+    const data = JSON.parse(decodeURIComponent(escape(atob(raw))));
+    const before = stations.length; mergeData(data); stamp(); LS.set('stations', stations); schedulePush();
+    $('#importIn').value = ''; $('#syncModal').hidden = true;
+    toast(stations.length > before ? `Added ${stations.length - before} station${stations.length - before === 1 ? '' : 's'}` : 'Stations updated');
+    if(!currentId && stations[0]){ currentId = stations[0].id; save(); renderAll(); }
+  }catch(e){ toast('That code didn’t work. Make sure you copied all of it.'); }
+};
 $('#logout').onclick = e => { e.preventDefault(); if(cur) sp('/me/player/pause', {method:'PUT', query:{device_id:deviceId}}).catch(() => {}); cur = null; signOut(); };
 $('#newStation').onclick = $('#newStation2').onclick = () => openModal('new');
 $('#addVariety').onclick = () => openModal('add');
@@ -1008,7 +1141,8 @@ document.addEventListener('keydown', e => {
     history.replaceState(null, '', REDIRECT);
   }
   if(!tok){ show('login'); return; }
-  show('app'); renderAll(); tickProgress(); poll();
+  show('app'); renderAll(); tickProgress(); poll(); renderSyncState();
+  if(sync && sync.gistId) queued(pull);
   try{ await accessToken(); }catch(e){ return; }
   loadTopArtists();
   if(MOBILE){ await refreshDevices(); return; }
