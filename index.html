@@ -163,7 +163,7 @@ code{background:var(--bg);border:1px solid var(--line);padding:2px 7px;border-ra
 .roombtn{display:flex;align-items:center;gap:12px;text-align:left;padding:10px 12px;border-radius:12px;background:linear-gradient(135deg,#2a1e3d,#1b2030);border:1px solid #3b2d57;margin-top:6px}
 .roombtn:hover{border-color:#7c5cff}
 .roombtn.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
-.rb-dino{font-size:26px}
+.rb-dino{line-height:0}
 .roombtn b{display:block;font-size:14px}.roombtn small{color:var(--muted);font-size:12px}
 .rcard{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;max-width:760px}
 .rcard h2{font:700 24px var(--head);margin:0 0 6px}
@@ -171,6 +171,14 @@ code{background:var(--bg);border:1px solid var(--line);padding:2px 7px;border-ra
 .code{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:12px/1.5 ui-monospace,Consolas,monospace;color:#cfe;overflow:auto;margin:8px 0}
 .small-btn{padding:6px 12px;font-size:13px}
 .rcard textarea,.rcard .field input{width:100%;padding:11px 13px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:inherit;font:13px ui-monospace,Consolas,monospace}
+.mechip{display:flex;align-items:center;gap:10px;padding:6px 10px 6px 6px;border-radius:12px;text-align:left;margin:-4px 0 4px}
+.mechip:hover{background:var(--panel2)}
+.mechip .dino{flex:none;background:var(--panel2);border-radius:12px}
+.mc-t b{display:block;font-size:14px}.mc-t small{font-size:11px;color:var(--dim)}
+.avgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.avgrid button{background:var(--panel2);border:2px solid var(--line);border-radius:14px;padding:6px 4px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted)}
+.avgrid button:hover{border-color:#3d4560}
+.avgrid button.on{border-color:var(--accent);background:#ff7a5918;color:var(--text)}
 .dinopick{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 16px}
 .dinopick button{font-size:30px;width:56px;height:56px;border-radius:14px;background:var(--panel2);border:2px solid var(--line)}
 .dinopick button.on{border-color:var(--accent);background:#ff7a5918}
@@ -180,7 +188,8 @@ code{background:var(--bg);border:1px solid var(--line);padding:2px 7px;border-ra
 .stage{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:32px;align-items:center}
 .media{position:relative;aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:#0f121a;border:1px solid var(--line)}
 .mart{position:absolute;inset:0;background:linear-gradient(135deg,#2a1e3d,#141821) center/cover}
-.mart.empty::after{content:'🦖';position:absolute;inset:0;display:grid;place-items:center;font-size:70px;opacity:.5}
+.mart .mart-av{position:absolute;inset:0;display:grid;place-items:center}
+.mart .mart-av .dino{width:46%;height:auto;animation:bob 1.2s ease-in-out infinite}
 .ybox{position:absolute;inset:0}
 .ybox iframe,#ytPlayer{width:100%!important;height:100%!important;border:0}
 .tapplay{position:absolute;inset:auto 50% 50% auto;transform:translate(50%,50%);background:var(--accent);color:#1a0d08;font-weight:700;padding:14px 22px;border-radius:30px;box-shadow:0 10px 30px #000a;z-index:3}
@@ -198,10 +207,13 @@ code{background:var(--bg);border:1px solid var(--line);padding:2px 7px;border-ra
 .vbtn:disabled{opacity:.4}
 .floor{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;align-items:flex-end;margin:26px 0 8px;padding:20px 12px 14px;border-radius:16px;background:radial-gradient(ellipse at 50% 120%,#7c5cff33,transparent 60%),var(--panel);border:1px solid var(--line);min-height:120px}
 .dancer{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:64px}
-.dancer .bod{font-size:40px;line-height:1;filter:drop-shadow(0 6px 8px #0008);animation:bob 1s ease-in-out infinite}
+.dancer .bod{line-height:0;filter:drop-shadow(0 6px 8px #0008);animation:bob 1s ease-in-out infinite}
 .dancer.woot .bod{animation:bounce .45s ease-in-out infinite}
 .dancer.meh .bod{animation:none;filter:grayscale(.6) drop-shadow(0 6px 8px #0008);transform:rotate(-8deg)}
-.dancer.dj .bod{font-size:54px}
+#radioToggle.on{border-color:#7c5cff;color:#cbbcff}
+.djby{display:flex;align-items:center;gap:6px}
+.msg .dino{vertical-align:middle;margin-right:4px}
+.waitlist .dino{flex:none}
 .dancer .nm{font-size:12px;color:var(--muted);max-width:90px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dancer.dj .nm{color:var(--accent);font-weight:700}
 .dancer .tag{font-size:11px;height:14px}
@@ -285,6 +297,20 @@ code{background:var(--bg);border:1px solid var(--line);padding:2px 7px;border-ra
   </div>
 </div>
 
+<!-- ============ username + dino (first time, and "edit profile") ============ -->
+<div id="onboard" class="center" hidden>
+  <div class="card" style="width:min(720px,100%)">
+    <div class="brand"><div class="dot"></div>Dino<span>Radio</span></div>
+    <h1 id="obTitle">Welcome! Pick a username and your dino</h1>
+    <p id="obSub">Your username and dino show up in the app and in the DJ Room. You can change them any time.</p>
+    <div class="field"><label for="obName">Username</label><input id="obName" maxlength="20" placeholder="e.g. Donovan" autocomplete="off" style="font-family:inherit"></div>
+    <div class="label" style="margin:14px 0 8px">Your dino <span id="obDinoName" style="color:var(--accent);text-transform:none;letter-spacing:0"></span></div>
+    <div class="avgrid" id="obGrid"></div>
+    <div id="obErr" class="err" hidden></div>
+    <div style="display:flex;gap:10px;align-items:center;margin-top:16px"><button class="btn primary" id="obSave">Let’s go</button><a href="#" id="obCancel" class="small" hidden>Cancel</a></div>
+  </div>
+</div>
+
 <!-- ============ sign in ============ -->
 <div id="login" class="center" hidden>
   <div class="card" style="text-align:center">
@@ -301,8 +327,9 @@ code{background:var(--bg);border:1px solid var(--line);padding:2px 7px;border-ra
 <div id="app" class="app" hidden>
   <aside class="side">
     <div class="brand" style="margin:0 6px 10px"><div class="dot"></div>Dino<span>Radio</span></div>
+    <button class="mechip" id="meChip" title="Edit your username and dino"><span id="meAv"></span><span class="mc-t"><b id="meNm"></b><small>Edit profile</small></span></button>
     <button class="btn primary" id="newStation">+ New station</button>
-    <button class="roombtn" id="roomBtn"><span class="rb-dino">🦖</span><span><b>DJ Room</b><small id="roomBtnSub">Take turns DJing with friends</small></span></button>
+    <button class="roombtn" id="roomBtn"><span class="rb-dino" id="rbDino"></span><span><b>DJ Room</b><small id="roomBtnSub">Take turns DJing with friends</small></span></button>
     <div class="label">Your stations</div>
     <ul id="stations"></ul>
     <div class="devbox">
@@ -352,21 +379,12 @@ code{background:var(--bg);border:1px solid var(--line);padding:2px 7px;border-ra
         </ol>
       </div>
 
-      <!-- pick a name -->
-      <div id="roomJoin" class="rcard" hidden>
-        <h2 id="joinTitle">Join the room</h2>
-        <p class="muted">Pick a name and a dino. Everyone in the room sees them.</p>
-        <div class="field"><label for="meName">Your name</label><input id="meName" maxlength="20" placeholder="Name"></div>
-        <div class="dinopick" id="dinoPick"></div>
-        <div id="roomJoinErr" class="err" hidden></div>
-        <button class="btn primary" id="joinRoomBtn">Enter the room</button>
-      </div>
-
       <!-- the room -->
       <div id="roomMain" hidden>
         <div class="rhead">
           <div><div class="stname">DJ Room</div><h2 id="roomTitle">—</h2></div>
           <div class="rhead-r">
+            <button class="btn ghost" id="radioToggle" title="When nobody is DJing, play songs picked for the people in the room">📻 Room Radio: On</button>
             <button class="btn ghost" id="inviteBtn">🔗 Copy invite link</button>
             <button class="btn ghost" id="leaveRoom">Leave room</button>
           </div>
@@ -383,6 +401,7 @@ code{background:var(--bg);border:1px solid var(--line);padding:2px 7px;border-ra
             <div class="srcrow"><span class="srcbadge" id="srcBadge"></span><span class="djby" id="djBy"></span></div>
             <h1 id="rTitle">Nobody's DJing yet</h1>
             <div class="artist" id="rArtist">Add songs to your queue, then join the waitlist to DJ.</div>
+            <div class="why" id="rWhy"></div>
             <div class="progress"><span id="rCur">0:00</span><div class="bar"><div id="rFill"></div></div><span id="rDur">0:00</span></div>
             <div class="votes">
               <button class="vbtn woot" id="bWoot"><span>👍 Woot</span><b id="nWoot">0</b></button>
@@ -502,6 +521,120 @@ code{background:var(--bg);border:1px solid var(--line);padding:2px 7px;border-ra
 <div class="toast" id="toast"></div>
 
 <script>
+/* ===== 20 original cute dino avatars, drawn as SVG ===== */
+const DINO_LIST = [
+  {sp:'rex',   name:'Rexy',       c:'#6cc96a', d:'#3f9a45', b:'#d9f5c4', acc:''},
+  {sp:'rex',   name:'Bubblegum',  c:'#ff8fc1', d:'#e0609d', b:'#ffe0ef', acc:'bow'},
+  {sp:'rex',   name:'King Rex',   c:'#a58bff', d:'#7a5ce6', b:'#ece6ff', acc:'crown'},
+  {sp:'rex',   name:'DJ Chomp',   c:'#ffa04d', d:'#e07421', b:'#ffe6cc', acc:'phones'},
+  {sp:'neck',  name:'Neckly',     c:'#4fd1c5', d:'#2aa69a', b:'#d4f7f3', acc:''},
+  {sp:'neck',  name:'Daisy',      c:'#ffd84d', d:'#e0b01f', b:'#fff4c7', acc:'flower'},
+  {sp:'neck',  name:'Cozy',       c:'#b9a4ff', d:'#8f74e6', b:'#efe9ff', acc:'scarf'},
+  {sp:'neck',  name:'Party Neck', c:'#62a8ff', d:'#3a80db', b:'#dcebff', acc:'party'},
+  {sp:'trike', name:'Trike',      c:'#ff9f5a', d:'#d9732e', b:'#ffe3cf', acc:''},
+  {sp:'trike', name:'Cool Trike', c:'#7ee0a8', d:'#46b57a', b:'#dcf8e8', acc:'shades'},
+  {sp:'trike', name:'Rosie',      c:'#ff9bb3', d:'#e06c88', b:'#ffe3ea', acc:'flower'},
+  {sp:'trike', name:'Duke',       c:'#6f9bff', d:'#4670d9', b:'#dfe8ff', acc:'crown'},
+  {sp:'stego', name:'Steggy',     c:'#8bd450', d:'#5ea82c', b:'#e6f7d4', acc:''},
+  {sp:'stego', name:'Bassplate',  c:'#c084fc', d:'#9a56d9', b:'#f3e6ff', acc:'phones'},
+  {sp:'stego', name:'Confetti',   c:'#ff6b6b', d:'#d94444', b:'#ffdede', acc:'party'},
+  {sp:'stego', name:'Pearl',      c:'#5ad1e6', d:'#2ea6bb', b:'#d6f5fb', acc:'bow'},
+  {sp:'ptero', name:'Pip',        c:'#7cc4ff', d:'#4a98db', b:'#e0f1ff', acc:''},
+  {sp:'ptero', name:'Soar',       c:'#ff8a65', d:'#db623d', b:'#ffe2d9', acc:'shades'},
+  {sp:'ptero', name:'Sunny',      c:'#ffcf3f', d:'#d9a514', b:'#fff2c4', acc:'scarf'},
+  {sp:'rex',   name:'Chill Rex',  c:'#5b8def', d:'#3a66c4', b:'#dce7ff', acc:'shades'},
+];
+// anchor points per species: head top (hat spot), eye, neck (scarf), ear (headphones)
+const DINO_ANCH = {
+  rex:  {top:[60,15], eye:[66,34], neck:[50,60], ear:[44,40], band:'M42 38 Q50 6 80 24', hr:24},
+  neck: {top:[74,10], eye:[78,22], neck:[64,42], ear:[66,24], band:'M66 22 Q70 4 86 16', hr:12},
+  trike:{top:[52,17], eye:[70,50], neck:[50,68], ear:[54,52], band:'M54 50 Q62 28 82 44', hr:20},
+  stego:{top:[78,51], eye:[82,64], neck:[68,72], ear:[70,66], band:'M70 64 Q76 46 90 60', hr:11},
+  ptero:{top:[52,20], eye:[60,36], neck:[52,52], ear:[42,40], band:'M42 38 Q50 18 68 30', hr:14},
+};
+function dinoBody(D){
+  const {c, d, b} = D, eyeW = '#fff', ink = '#2b2340', blush = '#ff7aa8';
+  const eye = (x, y, r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${eyeW}"/><circle cx="${x + r*.22}" cy="${y + r*.12}" r="${r*.62}" fill="${ink}"/><circle cx="${x + r*.42}" cy="${y - r*.18}" r="${r*.24}" fill="#fff"/>`;
+  const cheek = (x, y) => `<ellipse cx="${x}" cy="${y}" rx="4.2" ry="2.6" fill="${blush}" opacity=".55"/>`;
+  const leg = (x, y, w = 9, h = 11) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4.5" fill="${d}"/>`;
+  switch(D.sp){
+    case 'rex': return `
+      <path d="M30 70 Q12 72 6 58 Q20 66 34 60 Z" fill="${c}"/>
+      ${leg(34, 78)}${leg(52, 78)}
+      <ellipse cx="45" cy="68" rx="20" ry="16" fill="${c}"/>
+      <ellipse cx="47" cy="72" rx="11" ry="9" fill="${b}"/>
+      <path d="M58 62 q6 2 6 7" stroke="${d}" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M44 22 l5 -9 l4 9 M52 19 l6 -8 l3 9" fill="${d}" stroke="${d}" stroke-width="2" stroke-linejoin="round"/>
+      <ellipse cx="60" cy="38" rx="24" ry="21" fill="${c}"/>
+      <ellipse cx="78" cy="45" rx="13" ry="10" fill="${c}"/>
+      <path d="M70 51 q8 5 16 -1" stroke="${ink}" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <circle cx="86" cy="40" r="1.3" fill="${d}"/>
+      ${eye(66, 34, 7.5)}${cheek(74, 45)}`;
+    case 'neck': return `
+      <path d="M24 70 Q6 74 4 60 Q16 68 28 64 Z" fill="${c}"/>
+      ${leg(28, 76, 8, 12)}${leg(40, 78, 8, 11)}${leg(52, 78, 8, 11)}${leg(62, 76, 8, 12)}
+      <ellipse cx="46" cy="68" rx="25" ry="15" fill="${c}"/>
+      <ellipse cx="48" cy="73" rx="15" ry="7" fill="${b}"/>
+      <circle cx="36" cy="62" r="3" fill="${d}" opacity=".6"/><circle cx="46" cy="58" r="2.4" fill="${d}" opacity=".6"/><circle cx="54" cy="63" r="2" fill="${d}" opacity=".6"/>
+      <path d="M60 64 C66 50 64 34 72 26" stroke="${c}" stroke-width="13" fill="none" stroke-linecap="round"/>
+      <ellipse cx="76" cy="23" rx="13" ry="10.5" fill="${c}"/>
+      <path d="M78 29 q5 3 10 -1" stroke="${ink}" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      ${eye(78, 21, 5)}${cheek(84, 27)}`;
+    case 'trike': return `
+      <path d="M26 70 Q10 74 6 62 Q18 68 30 64 Z" fill="${c}"/>
+      ${leg(30, 78)}${leg(48, 78)}
+      <ellipse cx="42" cy="68" rx="22" ry="16" fill="${c}"/>
+      <ellipse cx="44" cy="73" rx="12" ry="8" fill="${b}"/>
+      <circle cx="54" cy="44" r="23" fill="${d}"/>
+      ${[0,1,2,3,4,5,6].map(i => { const a = Math.PI*(.6 + i*.21); return `<circle cx="${54 + Math.cos(a)*23}" cy="${44 - Math.sin(a)*23}" r="4.2" fill="${d}"/><circle cx="${54 + Math.cos(a)*21}" cy="${44 - Math.sin(a)*21}" r="2.2" fill="${b}"/>`; }).join('')}
+      <ellipse cx="66" cy="54" rx="19" ry="16" fill="${c}"/>
+      <path d="M60 40 l2 -14 l5 13 Z M72 41 l5 -13 l2 14 Z" fill="#fff6e0" stroke="#e9d8b0" stroke-width="1"/>
+      <path d="M82 52 l7 -5 l-2 8 Z" fill="#fff6e0"/>
+      <path d="M72 62 q7 4 13 -1" stroke="${ink}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${eye(70, 50, 6)}${cheek(77, 58)}`;
+    case 'stego': return `
+      <path d="M26 66 Q10 66 4 54 Q16 60 28 58 Z" fill="${c}"/>
+      <path d="M6 54 l-2 -8 l6 5 Z M12 58 l-1 -9 l6 6 Z" fill="${d}"/>
+      ${[[30,52,9],[40,46,11],[51,44,12],[62,47,10],[71,53,8]].map(([x,y,h]) => `<path d="M${x-6} ${y+8} L${x} ${y-h} L${x+6} ${y+8} Z" fill="${d}" stroke="${d}" stroke-width="2" stroke-linejoin="round"/>`).join('')}
+      ${leg(30, 76)}${leg(56, 76)}
+      <ellipse cx="46" cy="66" rx="27" ry="16" fill="${c}"/>
+      <ellipse cx="48" cy="72" rx="15" ry="7" fill="${b}"/>
+      <ellipse cx="78" cy="66" rx="13" ry="11" fill="${c}"/>
+      <path d="M80 72 q5 3 9 -1" stroke="${ink}" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      ${eye(82, 63, 5)}${cheek(86, 69)}`;
+    case 'ptero': return `
+      <path d="M44 54 L4 40 Q10 58 22 62 Q30 70 46 66 Z" fill="${d}"/>
+      <path d="M56 54 L96 40 Q90 58 78 62 Q70 70 54 66 Z" fill="${d}"/>
+      <path d="M44 56 L14 46 Q20 58 30 61 Z M56 56 L86 46 Q80 58 70 61 Z" fill="${c}" opacity=".6"/>
+      <ellipse cx="50" cy="64" rx="12" ry="15" fill="${c}"/>
+      <ellipse cx="50" cy="68" rx="7" ry="9" fill="${b}"/>
+      <path d="M44 79 v6 M56 79 v6" stroke="${d}" stroke-width="4" stroke-linecap="round"/>
+      <path d="M40 34 L26 22 L44 28 Z" fill="${d}"/>
+      <ellipse cx="54" cy="38" rx="15" ry="13" fill="${c}"/>
+      <path d="M64 38 L86 42 L64 46 Z" fill="#ffd27a" stroke="#e0ac3f" stroke-width="1" stroke-linejoin="round"/>
+      ${eye(60, 36, 5.5)}${cheek(62, 45)}`;
+  }
+}
+function dinoAcc(D){
+  const A = DINO_ANCH[D.sp], [tx, ty] = A.top, [ex, ey] = A.eye, [nx, ny] = A.neck, [ax, ay] = A.ear, s = A.hr/20;
+  switch(D.acc){
+    case 'bow': return `<g transform="translate(${tx} ${ty}) scale(${s})"><path d="M0 0 L-11 -7 L-11 7 Z M0 0 L11 -7 L11 7 Z" fill="#ff4f8b" stroke="#d92f6b" stroke-width="1.2" stroke-linejoin="round"/><circle r="3.2" fill="#ff7aa8" stroke="#d92f6b" stroke-width="1"/></g>`;
+    case 'crown': return `<g transform="translate(${tx} ${ty}) scale(${s})"><path d="M-11 4 L-11 -6 L-5 0 L0 -9 L5 0 L11 -6 L11 4 Z" fill="#ffd43b" stroke="#e0a800" stroke-width="1.2" stroke-linejoin="round"/><circle cx="0" cy="-1" r="1.8" fill="#ff5d73"/></g>`;
+    case 'party': return `<g transform="translate(${tx} ${ty}) scale(${s}) rotate(12)"><path d="M-9 4 L0 -18 L9 4 Z" fill="#7c5cff"/><path d="M-6 -3 L6 -3 M-3 -10 L3 -10" stroke="#ffd43b" stroke-width="2.4"/><circle cx="0" cy="-19" r="3.4" fill="#ff7aa8"/></g>`;
+    case 'flower': return `<g transform="translate(${tx - 4*s} ${ty + 2}) scale(${s})">${[0,72,144,216,288].map(a => `<circle cx="${Math.cos(a*Math.PI/180)*5}" cy="${Math.sin(a*Math.PI/180)*5}" r="4" fill="#fff"/>`).join('')}<circle r="3.2" fill="#ffc83d"/></g>`;
+    case 'shades': return `<g><rect x="${ex - 8.5}" y="${ey - 5.5}" width="17" height="10" rx="4" fill="#1d1b2b"/><path d="M${ex - 8} ${ey - 3} L${ex - 15} ${ey - 5}" stroke="#1d1b2b" stroke-width="2.2"/><path d="M${ex - 4} ${ey - 2.5} l4 0" stroke="#fff" stroke-width="1.6" opacity=".7" stroke-linecap="round"/></g>`;
+    case 'phones': { const w = Math.max(6, A.hr*.42), h = Math.max(9, A.hr*.62); return `<g><path d="${A.band}" stroke="#2b2340" stroke-width="3.4" fill="none" stroke-linecap="round"/><rect x="${ax - w/2}" y="${ay - h/2}" width="${w}" height="${h}" rx="${w/2}" fill="#ff5d73" stroke="#2b2340" stroke-width="1.6"/></g>`; }
+    case 'scarf': return `<g transform="translate(${nx} ${ny})"><path d="M-9 -3 Q0 4 10 -4 L11 2 Q0 10 -10 3 Z" fill="#ff5d73"/><path d="M-6 2 L-9 13 L-3 12 L-2 4 Z" fill="#ff5d73"/><path d="M-5 0 v4 M1 1 v5 M6 -1 v4" stroke="#fff" stroke-width="1.4" opacity=".7"/></g>`;
+    default: return '';
+  }
+}
+function dinoSVG(i, size){
+  const D = DINO_LIST[((+i || 0) % DINO_LIST.length + DINO_LIST.length) % DINO_LIST.length];
+  return `<svg class="dino" viewBox="0 0 100 100" width="${size || 48}" height="${size || 48}" role="img" aria-label="${D.name}" xmlns="http://www.w3.org/2000/svg"><ellipse cx="48" cy="90" rx="30" ry="4" fill="#000" opacity=".18"/>${dinoBody(D)}${dinoAcc(D)}</svg>`;
+}
+
+</script>
+<script>
 /* =================== basics =================== */
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -576,7 +709,7 @@ function lf(method, params){
   const k = method + JSON.stringify(params);
   if(lfCache.has(k)) return lfCache.get(k);
   const p = lfLimit(async () => {
-    const u = 'https://ws.audioscrobbler.com/2.0/?' + new URLSearchParams({method, api_key:cfg.lfKey, format:'json', autocorrect:1, ...params});
+    const u = 'https://ws.audioscrobbler.com/2.0/?' + new URLSearchParams({method, api_key:cfg.lfKey || (window.roomLfKey || ''), format:'json', autocorrect:1, ...params});
     const r = await fetch(u); const j = await r.json();
     if(j.error){ const e = new Error('Last.fm: ' + j.message); e.lfCode = j.error; throw e; }
     return j;
@@ -842,6 +975,7 @@ async function buildBatch(st, n, excludeKeys){
 }
 async function startBatch(){
   const st = station(); if(!st) return;
+  pending = null; clearTimeout(swapT);
   const my = ++seq; expectUntil = Date.now() + 12000; setBusy(true);
   try{
     const items = await buildBatch(st, BATCH, cur ? [cur.k] : []);
@@ -871,6 +1005,7 @@ function adopt(i, optimistic){
   render(); renderHist(); renderStations();
 }
 async function next(){
+  if(pending && pending.sid === currentId){ if(cur) cur.reachedEnd = false; return applyPending(); }
   if(!batch || batch.sid !== currentId || batch.idx >= batch.items.length - 1) return startBatch();
   const my = ++seq; expectUntil = Date.now() + 6000;
   try{
@@ -887,11 +1022,13 @@ function onState(s){
     if(i !== batch.idx){
       if(i < batch.idx && Date.now() < expectUntil) return; // Spotify hasn't caught up with a skip yet
       adopt(i, false);
+      if(pending && pending.sid === batch.sid){ applyPending(); return; } // the switch was missed (page asleep): catch up now
       if(!cur || cur.k !== batch.items[i].k) return;
     }
     cur.pos = s.pos || 0; cur.at = performance.now(); if(s.dur) cur.dur = s.dur;
     if(!s.paused) cur.started = true;
     if(cur.dur && cur.pos > cur.dur - 4000) cur.reachedEnd = true;
+    if(pending && !s.paused) scheduleSwap(); // keep the switch lined up with the real song position
     const last = batch.idx === batch.items.length - 1;
     if(s.paused && cur.started && cur.reachedEnd && cur.pos < 1500 && last){ startBatch(); return; }
     if(Date.now() > expectUntil || !s.paused) playing = !s.paused;
@@ -995,8 +1132,8 @@ async function togglePlay(){
   if(!cur){ startBatch(); return; }
   try{
     expectUntil = Date.now() + 2500;
-    if(playing){ await sp('/me/player/pause', {method:'PUT', query:{device_id:deviceId}}); playing = false; cur.pos += performance.now() - cur.at; cur.at = performance.now(); }
-    else { await sp('/me/player/play', {method:'PUT', query:{device_id:deviceId}}); playing = true; cur.at = performance.now(); const st = station(); if(st && st._needsRetune) setTimeout(retune, 800); }
+    if(playing){ clearTimeout(swapT); await sp('/me/player/pause', {method:'PUT', query:{device_id:deviceId}}); playing = false; cur.pos += performance.now() - cur.at; cur.at = performance.now(); }
+    else { await sp('/me/player/play', {method:'PUT', query:{device_id:deviceId}}); playing = true; cur.at = performance.now(); scheduleSwap(); }
   }catch(e){ if(e.status === 404){ cur = null; batch = null; startBatch(); return; } toast('Spotify didn’t respond: ' + e.message); }
   render(); renderStations();
 }
@@ -1027,27 +1164,46 @@ function thumb(k, val){
 }
 /* Re-pick the songs after the current one so feedback takes effect now,
    not after the current set of 12 runs out. */
-let retuneT;
+let retuneT, swapT, pending = null; // pending = re-picked songs waiting to take over when the current song ends
 function scheduleRetune(st){ if(!batch || batch.sid !== st.id || !cur) return; clearTimeout(retuneT); retuneT = setTimeout(retune, 2500); }
+/* Re-pick the songs after the current one so feedback counts right away,
+   but never touch the song that's playing: the new picks take over when it ends. */
 async function retune(){
   const st = station(); if(!st || !batch || batch.sid !== st.id || !cur) return;
-  if(!playing){ st._needsRetune = true; return; }
-  const pos0 = cur.pos + (performance.now() - cur.at);
-  if(cur.dur && pos0 > cur.dur - 10000) return; // about to change songs anyway
-  const my = ++seq; expectUntil = Date.now() + 10000;
+  const forK = cur.k;
   try{
-    const unplayed = batch.items.slice(batch.idx + 1).map(i => i.k);
-    st.recent = st.recent.filter(k => !unplayed.includes(k)); // those never played; let them come back later
+    const keep = pending && pending.sid === st.id ? pending.items.map(i => i.k) : [];
     const upcoming = await buildBatch(st, BATCH - 1, [cur.k]);
-    if(my !== seq || !cur || !playing || !upcoming.length) return;
-    const pos = Math.round(cur.pos + (performance.now() - cur.at));
-    await sp('/me/player/play', {method:'PUT', query:{device_id:deviceId}, body:{uris:[cur.uri, ...upcoming.map(i => i.uri)], position_ms:pos}});
-    if(my !== seq) return;
-    st.recent.push(...upcoming.map(i => i.k)); st._needsRetune = false; save();
-    batch = {sid:st.id, items:[batch.items[batch.idx], ...upcoming], idx:0};
-    cur.pos = pos; cur.at = performance.now();
-    toast('Upcoming songs re-tuned', null, 1800);
+    if(!cur || cur.k !== forK || !upcoming.length || currentId !== st.id) return;
+    // songs from the old plan that never played can come back later
+    const dropped = batch.items.slice(batch.idx + 1).map(i => i.k).concat(keep);
+    st.recent = st.recent.filter(k => !dropped.includes(k));
+    st.recent.push(...upcoming.map(i => i.k)); save();
+    pending = {sid:st.id, forK, items:upcoming};
+    scheduleSwap();
+    toast('Got it. The next songs will reflect that.', null, 2000);
   }catch(e){ console.warn('retune', e); }
+}
+function scheduleSwap(){
+  clearTimeout(swapT);
+  if(!pending || !cur) return;
+  const pos = cur.pos + (playing && cur.started ? performance.now() - cur.at : 0);
+  const left = (cur.dur || 0) - pos - 1200; // switch in the last moment of the song
+  if(!playing) return;                      // paused: re-check when you press play
+  swapT = setTimeout(applyPending, Math.max(0, left));
+}
+async function applyPending(){
+  const p = pending; if(!p || p.sid !== currentId) { pending = null; return; }
+  const st = station(); if(!st) return;
+  pending = null; clearTimeout(swapT);
+  const my = ++seq; expectUntil = Date.now() + 8000;
+  try{
+    await playUris(p.items.map(i => i.uri));
+    if(my !== seq) return;
+    if(cur && cur.k === p.forK) cur.reachedEnd = true; // counts as listened, not skipped
+    batch = {sid:st.id, items:p.items, idx:-1};
+    adopt(0, false);
+  }catch(e){ console.warn('swap', e); }
 }
 const thumbOf = (st, k) => st.likes.some(l => l.k === k) ? 1 : st.dislikes.some(d => d.k === k) ? -1 : 0;
 
@@ -1078,8 +1234,40 @@ function deleteStation(id){
   toast(`Deleted ${st.name}`, {label:'Undo', fn:() => { delete deleted[id]; LS.set('deleted', deleted); st.u = Date.now(); stations.splice(i, 0, st); save(); renderAll(); }});
 }
 
+/* =================== your profile (username + dino) =================== */
+let me = LS.get('me', null);
+(function migrate(){ const old = LS.get('roomMe', null); if(!me && old && old.name){ me = {name:old.name, avatar:0, t:Date.now()}; LS.set('me', me); } })();
+let obPick = me ? me.avatar : Math.floor(Math.random()*DINO_LIST.length), obDone = null;
+function renderOnboard(editing){
+  $('#obTitle').textContent = editing ? 'Edit your profile' : 'Welcome! Pick a username and your dino';
+  $('#obCancel').hidden = !editing; $('#obSave').textContent = editing ? 'Save' : 'Let’s go';
+  const g = $('#obGrid'); g.innerHTML = '';
+  DINO_LIST.forEach((d, i) => {
+    const b = document.createElement('button'); b.className = i === obPick ? 'on' : '';
+    b.innerHTML = dinoSVG(i, 64) + `<span>${esc(d.name)}</span>`;
+    b.onclick = () => { obPick = i; renderOnboard(editing); };
+    g.appendChild(b);
+  });
+  $('#obDinoName').textContent = '· ' + DINO_LIST[obPick].name;
+}
+function openProfile(editing){
+  obPick = me ? me.avatar : obPick; $('#obName').value = me ? me.name : '';
+  $('#obErr').hidden = true; renderOnboard(editing); show('onboard'); setTimeout(() => $('#obName').focus(), 50);
+}
+$('#obSave').onclick = () => {
+  const name = $('#obName').value.trim().replace(/\s+/g, ' ');
+  if(name.length < 2){ $('#obErr').textContent = 'Pick a username (at least 2 characters).'; $('#obErr').hidden = false; return; }
+  me = {name:name.slice(0, 20), avatar:obPick, t:Date.now()}; LS.set('me', me);
+  renderMe(); show('app');
+  if(obDone){ const f = obDone; obDone = null; f(); }
+  if(typeof roomProfileChanged === 'function') roomProfileChanged();
+};
+$('#obCancel').onclick = e => { e.preventDefault(); show('app'); };
+$('#meChip').onclick = () => openProfile(true);
+function renderMe(){ if(!me) return; $('#meAv').innerHTML = dinoSVG(me.avatar, 40); $('#meNm').textContent = me.name; }
+
 /* =================== rendering =================== */
-function show(which){ ['setup','login','app'].forEach(x => $('#'+x).hidden = x !== which); }
+function show(which){ ['setup','login','onboard','app'].forEach(x => $('#'+x).hidden = x !== which); }
 function setBusy(b){ busy = b; $('#spin').hidden = !b; $('#spinTxt').textContent = cur ? 'Finding the next song…' : 'Tuning station…'; }
 function renderStations(){
   const ul = $('#stations'); ul.innerHTML = '';
@@ -1324,6 +1512,8 @@ async function boot(){
     history.replaceState(null, '', REDIRECT);
   }
   if(!tok){ show('login'); return; }
+  if(!me){ openProfile(false); await new Promise(r => obDone = r); }
+  renderMe();
   show('app'); renderAll(); tickProgress(); poll(); renderSyncState();
   if(sync && sync.gistId) queued(pull);
   if(invited || LS.get('inRoom', false)) setTimeout(enterRoom, 0);
@@ -1347,11 +1537,9 @@ window.addEventListener('DOMContentLoaded', boot);
      rooms/{id}/chat    {pushId: {uid, name, dino, text, t}}
    ===================================================================== */
 const FB_VER = '10.14.1';
-const DINOS = ['🦖','🦕','🐊','🐉','🦎','🐢','🐸','🦩'];
 let roomCfg = LS.get('room', null);           // {fb, roomId, name}
-let roomMe = LS.get('roomMe', null);           // {name, dino}
 const R = {api:null, db:null, uid:null, offset:0, base:'', state:null, users:{}, meta:null, chat:[], unsub:[], playingId:null,
-           yt:null, ytReady:null, sc:null, scReady:null, spotOn:false, tick:null, advancing:false, lastSys:''};
+           yt:null, ytReady:null, sc:null, scReady:null, spotOn:false, tick:null, advancing:false, lastSys:'', profiles:{}, pid:null, profSynced:false, radioBusy:false, rpool:null, tickN:0};
 const rnow = () => Date.now() + R.offset;
 const rid = (n = 20) => { const a = new Uint8Array(n); crypto.getRandomValues(a); const cs = 'abcdefghijklmnopqrstuvwxyz0123456789'; return Array.from(a, x => cs[x % cs.length]).join(''); };
 const listOf = x => Array.isArray(x) ? x.filter(Boolean) : x ? Object.keys(x).sort((a, b) => a - b).map(k => x[k]).filter(Boolean) : [];
@@ -1390,13 +1578,13 @@ function stopRadio(){
   if(cur){ sp('/me/player/pause', {method:'PUT', query:{device_id:deviceId}}).catch(() => {}); }
   cur = null; batch = null; playing = false; seq++; render(); renderStations();
 }
-function showRoomPanel(which){ ['roomSetup', 'roomJoin', 'roomMain'].forEach(id => $('#' + id).hidden = id !== which); }
+function showRoomPanel(which){ ['roomSetup', 'roomMain'].forEach(id => $('#' + id).hidden = id !== which); }
 async function enterRoom(){
   if(sdk) try{ sdk.activateElement(); }catch(e){}
   document.body.classList.add('room-on'); $('#roomView').hidden = false; $('#roomBtn').classList.add('on'); LS.set('inRoom', true);
   stopRadio();
   if(!roomCfg){ showRoomPanel('roomSetup'); return; }
-  if(!roomMe){ renderJoin(); showRoomPanel('roomJoin'); return; }
+  if(!me){ openProfile(false); await new Promise(r => obDone = r); }
   showRoomPanel('roomMain'); $('#roomTitle').textContent = roomCfg.name || 'DJ Room';
   try{ await joinRoom(); }
   catch(e){ console.warn(e); roomWarn('Couldn’t connect to the room: ' + e.message + '. Check your internet connection. If you set up the room, check the Firebase steps (anonymous sign-in on, rules published).'); }
@@ -1408,15 +1596,22 @@ function exitRoom(){
 }
 async function joinRoom(){
   const A = await fbConnect();
+  R.pid = await myPid();
   if(R.unsub.length) return; // already listening
   const userRef = rref('users/' + R.uid);
   R.unsub.push(A.onValue(A.ref(R.db, '.info/connected'), s => {
     if(s.val() !== true) return;
     A.onDisconnect(userRef).remove();
     A.onDisconnect(rref('state/wait/' + R.uid)).remove();
-    A.set(userRef, {name:roomMe.name, dino:roomMe.dino, t:A.serverTimestamp()});
+    A.set(userRef, {pid:R.pid, name:me.name, avatar:me.avatar, t:A.serverTimestamp()});
   }));
-  R.unsub.push(A.onValue(rref('meta'), s => { R.meta = s.val() || {}; if(R.meta.name){ $('#roomTitle').textContent = R.meta.name; } renderRoom(); }));
+  R.unsub.push(A.onValue(rref('meta'), s => {
+    R.meta = s.val() || {}; if(R.meta.name){ $('#roomTitle').textContent = R.meta.name; }
+    window.roomLfKey = R.meta.lf || '';
+    if(R.meta.owner === R.uid && cfg.lfKey && R.meta.lf !== cfg.lfKey) A.set(rref('meta/lf'), cfg.lfKey); // lets Room Radio find music for everyone
+    renderRoom();
+  }));
+  R.unsub.push(A.onValue(rref('profiles'), s => { R.profiles = s.val() || {}; syncMyProfile(); renderRoom(); }));
   R.unsub.push(A.onValue(rref('users'), s => { R.users = s.val() || {}; renderRoom(); }));
   R.unsub.push(A.onValue(rref('state'), s => { R.state = s.val() || {}; onRoomState(); }));
   R.unsub.push(A.onValue(A.query(rref('chat'), A.limitToLast(80)), s => { const v = s.val() || {}; R.chat = Object.keys(v).sort().map(k => v[k]); renderChat(); }));
@@ -1475,23 +1670,9 @@ function readInvite(){ // called at boot before anything else
   history.replaceState(null, '', location.pathname + location.search);
   return true;
 }
+$('#rbDino').innerHTML = dinoSVG(3, 38);
 $('#roomBtn').onclick = () => { inRoom() ? exitRoom() : enterRoom(); };
 $('#leaveRoom').onclick = exitRoom;
-
-/* ---------- join screen ---------- */
-let pickedDino = (roomMe && roomMe.dino) || DINOS[Math.floor(Math.random()*DINOS.length)];
-function renderJoin(){
-  $('#joinTitle').textContent = 'Join ' + ((roomCfg && roomCfg.name) || 'the room');
-  const box = $('#dinoPick'); box.innerHTML = '';
-  DINOS.forEach(d => { const b = document.createElement('button'); b.textContent = d; b.className = d === pickedDino ? 'on' : ''; b.onclick = () => { pickedDino = d; renderJoin(); }; box.appendChild(b); });
-  if(roomMe) $('#meName').value = roomMe.name;
-}
-$('#joinRoomBtn').onclick = () => {
-  const name = $('#meName').value.trim();
-  if(!name){ $('#roomJoinErr').textContent = 'Type a name first.'; $('#roomJoinErr').hidden = false; return; }
-  roomMe = {name:name.slice(0, 20), dino:pickedDino}; LS.set('roomMe', roomMe); $('#roomJoinErr').hidden = true;
-  enterRoom();
-};
 
 /* ---------- room actions (all shared changes go through transactions) ---------- */
 const tmini = t => ({src:t.src, id:t.id || '', uri:t.uri || '', url:t.url || '', title:t.title || '', artist:t.artist || '', img:t.img || '', dur:t.dur || 0});
@@ -1504,7 +1685,7 @@ function advance(expectId, reason){
     const wait = st.wait || {}, djq = st.djq || {};
     if(st.current){
       const v = st.current.votes || {}; const vals = Object.values(v);
-      const h = {...tmini(st.current.track), by:st.current.by || '', dino:st.current.dino || '', w:vals.filter(x => x === 1).length, m:vals.filter(x => x === -1).length, g:Object.keys(st.current.grabs || {}).length, skipped:reason || ''};
+      const h = {...tmini(st.current.track), by:st.current.by || '', av:st.current.av ?? -1, radio:!!st.current.radio, w:vals.filter(x => x === 1).length, m:vals.filter(x => x === -1).length, g:Object.keys(st.current.grabs || {}).length, skipped:reason || ''};
       st.hist = [h, ...listOf(st.hist)].slice(0, 40);
       if(wait[st.current.uid] !== undefined) wait[st.current.uid] = Math.max(0, ...Object.values(wait)) + 1; // DJ goes to the back
     }
@@ -1517,7 +1698,12 @@ function advance(expectId, reason){
     }
     st.wait = wait; st.djq = djq;
     const u = next && R.users[next.uid];
-    st.current = next ? {id:rid(12), uid:next.uid, by:u ? u.name : 'DJ', dino:u ? u.dino : '🦖', track:next.track, startedAt:rnow() + 1500, votes:{}, grabs:{}} : null;
+    if(next) st.current = {id:rid(12), uid:next.uid, by:u ? u.name : 'DJ', av:u ? (u.avatar ?? 0) : 0, track:next.track, startedAt:rnow() + 1500, votes:{}, grabs:{}};
+    else if(st.radioOn !== false && st.radioNext && st.radioNext.for === presentKey()){ // nobody's DJing: Room Radio picks for whoever is here
+      const rn = st.radioNext;
+      st.current = {id:rid(12), uid:'radio', by:'Room Radio', av:-1, radio:true, track:rn.track, why:rn.why || '', forNames:rn.names || '', startedAt:rnow() + 1500, votes:{}, grabs:{}};
+      st.radioNext = null;
+    } else st.current = null;
     return st;
   }).catch(e => console.warn('advance', e));
 }
@@ -1525,9 +1711,7 @@ function vote(v){
   const c = R.state && R.state.current; if(!c) return;
   const mine = (c.votes || {})[R.uid];
   R.api.runTransaction(rref('state/current'), cc => { if(!cc || cc.id !== c.id) return; cc.votes = cc.votes || {}; if(cc.votes[R.uid] === v) delete cc.votes[R.uid]; else cc.votes[R.uid] = v; return cc; });
-  if(v === 1 && mine !== 1 && c.track.src === 'spotify'){ // a woot on a Spotify song also teaches your radio
-    const st = station(); if(st) learn(st, c.track.artist.split(',')[0], 'like', .5);
-  }
+  if(mine !== v && c.track.src === 'spotify') learnProfile(v === 1 ? 'like' : 'dislike', c.track); // your woots/mehs shape Room Radio for you
 }
 function grab(){
   const c = R.state && R.state.current; if(!c || (c.grabs || {})[R.uid]) return;
@@ -1547,7 +1731,7 @@ function toggleWait(){
 }
 function chatSay(text, sys){
   if(!R.db) return;
-  R.api.push(rref('chat'), {uid:R.uid, name:roomMe.name, dino:roomMe.dino, text:String(text).slice(0, 300), t:R.api.serverTimestamp(), sys:!!sys});
+  R.api.push(rref('chat'), {uid:R.uid, name:me.name, av:me.avatar, text:String(text).slice(0, 300), t:R.api.serverTimestamp(), sys:!!sys});
 }
 $('#bWoot').onclick = () => vote(1);
 $('#bMeh').onclick = () => vote(-1);
@@ -1556,6 +1740,134 @@ $('#bRSkip').onclick = () => { const c = R.state && R.state.current; if(c){ adva
 $('#bResync').onclick = () => { if(sdk) try{ sdk.activateElement(); }catch(e){} R.playingId = null; onRoomState(true); };
 $('#waitBtn').onclick = toggleWait;
 $('#chatForm').onsubmit = e => { e.preventDefault(); const v = $('#chatIn').value.trim(); if(v){ chatSay(v); $('#chatIn').value = ''; } };
+
+/* ---------- personal taste profiles (one per person, saved in the room) ---------- */
+async function myPid(){ // stable id per Spotify account, so your profile follows you across devices
+  let pid = LS.get('pid', null); if(pid) return pid;
+  try{ const j = await sp('/me'); if(j && j.id) pid = 'sp_' + String(j.id).replace(/[.#$\[\]\/]/g, '_'); }catch(e){}
+  pid = pid || 'p_' + rid(12); LS.set('pid', pid); return pid;
+}
+function syncMyProfile(){
+  if(!R.pid || R.profSynced === 'busy') return;
+  const mine = R.profiles[R.pid];
+  if(!R.profSynced){
+    R.profSynced = 'busy';
+    if(mine && (mine.t || 0) > (me.t || 0) && mine.name){ me = {name:mine.name, avatar:mine.avatar ?? me.avatar, t:mine.t}; LS.set('me', me); renderMe(); }
+    const upd = {name:me.name, avatar:me.avatar, t:me.t || Date.now()};
+    R.api.update(rref('profiles/' + R.pid), upd).catch(() => {});
+    R.api.update(rref('users/' + R.uid), {name:me.name, avatar:me.avatar}).catch(() => {});
+    sp('/me/top/artists', {query:{limit:10, time_range:'medium_term'}}).then(j => {
+      const top = ((j && j.items) || []).map(a => a.name).slice(0, 10);
+      if(top.length) R.api.update(rref('profiles/' + R.pid), {top});
+    }).catch(() => {}).finally(() => { R.profSynced = true; });
+  }
+}
+function roomProfileChanged(){ // you edited your username/dino
+  if(!R.db || !R.pid) return;
+  R.api.update(rref('profiles/' + R.pid), {name:me.name, avatar:me.avatar, t:me.t}).catch(() => {});
+  R.api.update(rref('users/' + R.uid), {name:me.name, avatar:me.avatar}).catch(() => {});
+}
+async function learnProfile(kind, track){
+  const artist = String(track.artist || '').split(',')[0].trim(); if(!artist || !R.pid) return;
+  const tags = await fetchTags(artist).catch(() => []);
+  const [aw, tw] = SIGNALS[kind], a = clean(artist);
+  R.api.runTransaction(rref('profiles/' + R.pid), p => {
+    p = p || {name:me.name, avatar:me.avatar, t:me.t};
+    const T = p.taste = p.taste || {}; T.a = T.a || {}; T.t = T.t || {}; T.names = T.names || {};
+    T.a[a] = clamp((T.a[a] || 0) + aw, -6, 6); T.names[a] = artist;
+    for(const [tag, w] of tags){ const k = tag.replace(/[.#$\[\]\/]/g, ' '); T.t[k] = clamp((T.t[k] || 0) + tw*w, -5, 5); }
+    let likes = listOf(p.likes).filter(l => tkey(l.artist, l.title) !== tkey(artist, track.title));
+    if(kind === 'like') likes.push({artist, title:track.title});
+    p.likes = likes.slice(-20);
+    return p;
+  });
+}
+
+/* ---------- Room Radio: picks songs for exactly the people in the room ---------- */
+function presentPids(){ return [...new Set(Object.values(R.users || {}).map(u => u && u.pid).filter(Boolean))].sort(); }
+function presentKey(){ return presentPids().join(','); }
+function isRadioBrain(){ // one device does the picking: the owner if here, otherwise the first person who joined
+  const ids = Object.keys(R.users || {}); if(!ids.length) return false;
+  if(R.meta && R.meta.owner && ids.includes(R.meta.owner)) return R.meta.owner === R.uid;
+  return ids.sort()[0] === R.uid;
+}
+async function radioBrain(){
+  const st = R.state; if(!st || !R.db || R.radioBusy || st.radioOn === false || !isRadioBrain()) return;
+  const key = presentKey(); if(!key) return;
+  if(st.radioNext && st.radioNext.for === key) return;
+  if(!(cfg.lfKey || window.roomLfKey)) return;
+  R.radioBusy = true;
+  try{
+    const pick = await buildRadioPick(key);
+    if(pick && presentKey() === key) await R.api.runTransaction(rref('state/radioNext'), cur0 => (cur0 && cur0.for === key) ? undefined : pick);
+  }catch(e){ console.warn('radio', e); }
+  finally{ R.radioBusy = false; }
+}
+async function buildRadioPick(key){
+  const pids = key.split(','), profs = pids.map(pid => ({pid, ...(R.profiles[pid] || {})}));
+  const sig = key + '|' + profs.map(p => listOf(p.likes).length + ':' + listOf(p.top).length).join(',');
+  if(!R.rpool || R.rpool.sig !== sig){
+    const P = new Map();
+    const add = (artist, title, w, why, pid) => {
+      if(!artist || !title) return; const k = tkey(artist, title);
+      let c = P.get(k); if(!c){ c = {k, artist, title, w:0, why:[], who:new Set()}; P.set(k, c); }
+      c.w += w; c.why.push([w, why]); c.who.add(pid);
+    };
+    await Promise.all(profs.map(async p => {
+      const nm = p.name || 'someone', top = listOf(p.top).slice(0, 6);
+      await Promise.all(top.map(async (artist, i) => {
+        (await topTracks(artist, 10)).forEach((t, j) => add(artist, t.name, 2.2*(1 - j/14)*(1 - i/12), `${artist} is one of ${nm}’s top artists`, p.pid));
+        if(i < 3){
+          const sim = await safe(lf('artist.getsimilar', {artist, limit:8}));
+          await Promise.all(arr(sim && sim.similarartists && sim.similarartists.artist).slice(0, 6).map(async a => (await topTracks(a.name, 5)).forEach((t, j) => add(a.name, t.name, (0.6 + (+a.match || .5))*(1 - j/7), `Similar to ${artist}, one of ${nm}’s favorites`, p.pid))));
+        }
+      }));
+      await Promise.all(listOf(p.likes).slice(-8).map(async l => {
+        const sim = await safe(lf('track.getsimilar', {artist:l.artist, track:l.title, limit:25}));
+        arr(sim && sim.similartracks && sim.similartracks.track).forEach(t => add(t.artist && t.artist.name, t.name, .6 + (+t.match || 0)*2, `Like “${l.title}”, which ${nm} wooted`, p.pid));
+      }));
+    }));
+    if(P.size < 10){ // brand-new profiles: start from what's popular
+      const ch = await safe(lf('chart.gettoptracks', {limit:60}));
+      arr(ch && ch.tracks && ch.tracks.track).forEach((t, i) => add(t.artist && t.artist.name, t.name, 1.2*(1 - i/80), 'Popular right now', ''));
+    }
+    R.rpool = {sig, P};
+    primeTags(P);
+  }
+  const P = R.rpool.P, hist = listOf((R.state || {}).hist), recent = new Set(hist.slice(0, 50).map(h => tkey(h.artist.split(',')[0], h.title)));
+  const lastA = hist.slice(0, 2).map(h => clean(h.artist.split(',')[0]));
+  const scored = [];
+  for(const c of P.values()){
+    if(recent.has(c.k) || badKeys.has(c.k)) continue;
+    let s = c.w + .6*Math.max(0, c.who.size - 1), veto = false; const fans = [];
+    for(const p of profs){
+      const T = p.taste || {}, aff = ((T.a || {})[clean(c.artist)] || 0);
+      if(aff <= -4) veto = true;
+      const [sty, tag] = styleScore({taste:{a:T.a || {}, t:T.t || {}}}, c.artist);
+      const v = aff + sty*1.2; s += v;
+      if(v > .7) fans.push([v, p.name || 'someone', tag]);
+    }
+    if(veto) continue;
+    if(lastA.includes(clean(c.artist))) s -= 3;
+    scored.push([s, c, fans]);
+  }
+  scored.sort((a, b) => b[0] - a[0]);
+  const top = scored.slice(0, 40);
+  for(let tries = 0; tries < 8 && top.length; tries++){
+    const w = top.map(x => Math.exp(x[0]*1.1)); let r = Math.random()*w.reduce((a, b) => a + b, 0), i = 0;
+    for(; i < top.length - 1; i++){ r -= w[i]; if(r <= 0) break; }
+    const [, c, fans] = top.splice(i, 1)[0];
+    let m = null; try{ m = await resolve(c); }catch(e){}
+    if(!m){ badKeys.add(c.k); continue; }
+    fans.sort((a, b) => b[0] - a[0]);
+    const why = fans.length >= 2 ? `Picked for ${fans.map(f => f[1]).slice(0, 3).join(' & ')}`
+      : fans.length === 1 ? `${fans[0][1]} likes ${fans[0][2] || c.artist}` : c.why.slice().sort((a, b) => b[0] - a[0])[0][1];
+    return {for:key, why, names:profs.map(p => p.name || '').filter(Boolean).join(', '),
+            track:{src:'spotify', id:m.id, uri:m.uri, url:'', title:m.name, artist:m.artist, img:m.img, dur:m.dur}};
+  }
+  return null;
+}
+document.addEventListener('click', e => { if(e.target && e.target.id === 'radioToggle' && R.db){ const on = !(R.state && R.state.radioOn === false); R.api.set(rref('state/radioOn'), !on); chatSay(on ? 'turned Room Radio off' : 'turned Room Radio on', true); } });
 
 /* ---------- the clock: ends songs, meh-skips, starts the next DJ ---------- */
 function roomTick(){
@@ -1570,8 +1882,10 @@ function roomTick(){
     if(online >= 2 && mehs >= Math.ceil(online / 2) && now > c.startedAt + 3000){ if(c.uid === R.uid || online <= 2 || mehs > 0) return advance(c.id, 'meh'); }
   } else {
     const anyone = Object.keys(st.wait || {}).some(uid => listOf((st.djq || {})[uid]).length);
-    if(anyone) advance(null);
+    const radioReady = st.radioOn !== false && st.radioNext && st.radioNext.for === presentKey();
+    if(anyone || radioReady) advance(null);
   }
+  if(++R.tickN % 3 === 0) radioBrain();
 }
 
 /* ---------- playing the current song on this device ---------- */
@@ -1729,6 +2043,7 @@ async function qSearch(){
 
 /* ---------- rendering ---------- */
 const srcLabel = {spotify:'Spotify', youtube:'YouTube', soundcloud:'SoundCloud'};
+function namesFor(){ const names = presentPids().map(pid => pid === R.pid ? 'you' : ((R.profiles[pid] || {}).name || 'a friend')); return names.length > 1 ? names.slice(0, -1).join(', ') + ' & ' + names[names.length - 1] : names[0] || 'you'; }
 function renderRoom(){
   if(!inRoom() || $('#roomMain').hidden) return;
   const st = R.state || {}, c = st.current, users = R.users;
@@ -1737,16 +2052,20 @@ function renderRoom(){
   $('#rTitle').textContent = t ? t.title : 'Nobody’s DJing yet';
   $('#rArtist').textContent = t ? t.artist : 'Add songs to your queue, then join the waitlist to DJ.';
   $('#srcBadge').textContent = t ? srcLabel[t.src] : ''; $('#srcBadge').className = 'srcbadge ' + (t ? t.src : ''); $('#srcBadge').hidden = !t;
-  $('#djBy').textContent = c ? `${c.dino || '🦖'} ${c.by} is DJing` : '';
-  const art = $('#mArt'); art.style.backgroundImage = t && t.img ? `url('${t.img}')` : ''; art.classList.toggle('empty', !(t && t.img));
+  const radioOn = st.radioOn !== false;
+  $('#radioToggle').textContent = radioOn ? '📻 Room Radio: On' : '📻 Room Radio: Off'; $('#radioToggle').classList.toggle('on', radioOn);
+  $('#djBy').innerHTML = !c ? '' : c.radio ? `📻 <b>Room Radio</b> · for ${esc(namesFor())}` : `${dinoSVG(c.av ?? 0, 22)} ${esc(c.by)} is DJing`;
+  $('#rWhy').innerHTML = c && c.radio && c.why ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.5L5.7 21l2.3-7.2-6-4.6h7.6z"/></svg><span>${esc(c.why)}</span>` : '';
+  const art = $('#mArt'); art.style.backgroundImage = t && t.img ? `url('${t.img}')` : '';
+  art.innerHTML = t && t.img ? '' : `<div class="mart-av">${dinoSVG(c ? (c.radio ? 3 : (c.av ?? 0)) : 0, 160)}</div>`;
   const votes = (c && c.votes) || {}, vals = Object.values(votes);
   $('#nWoot').textContent = vals.filter(v => v === 1).length; $('#nMeh').textContent = vals.filter(v => v === -1).length; $('#nGrab').textContent = Object.keys((c && c.grabs) || {}).length;
   $('#bWoot').classList.toggle('on', votes[R.uid] === 1); $('#bMeh').classList.toggle('on', votes[R.uid] === -1); $('#bGrab').classList.toggle('on', !!(c && c.grabs && c.grabs[R.uid]));
   ['#bWoot', '#bMeh', '#bGrab', '#bResync'].forEach(id => $(id).disabled = !c);
   const owner = R.meta && R.meta.owner === R.uid;
-  $('#bRSkip').hidden = !(c && (c.uid === R.uid || owner));
+  $('#bRSkip').hidden = !(c && (c.uid === R.uid || owner || c.radio));
   const online = Object.keys(users).length;
-  $('#mehNote').textContent = c && online >= 2 ? `${Math.ceil(online/2)} mehs skip the song · ${online} in the room` : online ? `${online} in the room` : '';
+  $('#mehNote').textContent = c && online >= 2 ? `${Math.ceil(online/2)} ${Math.ceil(online/2) === 1 ? 'meh skips' : 'mehs skip'} the song · ${online} in the room` : online ? `${online} in the room` : '';
   // dance floor
   const fl = $('#floor'); fl.innerHTML = '';
   const ids = Object.keys(users).sort((a, b) => (c && a === c.uid ? -1 : c && b === c.uid ? 1 : (users[a].t || 0) - (users[b].t || 0)));
@@ -1754,18 +2073,18 @@ function renderRoom(){
   ids.forEach(uid => {
     const u = users[uid], v = votes[uid], isDj = c && c.uid === uid;
     const d = document.createElement('div'); d.className = 'dancer' + (isDj ? ' dj' : '') + (v === 1 ? ' woot' : v === -1 ? ' meh' : '');
-    d.innerHTML = `<div class="tag">${isDj ? '🎧' : v === 1 ? '👍' : v === -1 ? '👎' : (c && c.grabs && c.grabs[uid]) ? '★' : ''}</div><div class="bod">${esc(u.dino || '🦖')}</div><div class="nm">${esc(u.name)}${uid === R.uid ? ' (you)' : ''}</div>`;
+    d.innerHTML = `<div class="tag">${isDj ? '🎧' : v === 1 ? '👍' : v === -1 ? '👎' : (c && c.grabs && c.grabs[uid]) ? '★' : ''}</div><div class="bod">${dinoSVG(u.avatar ?? 0, isDj ? 84 : 64)}</div><div class="nm">${esc(u.name)}${uid === R.uid ? ' (you)' : ''}</div>`;
     fl.appendChild(d);
   });
   // waitlist
   const wait = st.wait || {}, order = Object.entries(wait).sort((a, b) => a[1] - b[1]).map(e => e[0]);
   const wl = $('#waitList'); wl.innerHTML = '';
-  if(!order.length) wl.innerHTML = '<li class="small" style="background:none">Nobody in line. Join to DJ!</li>';
+  if(!order.length) wl.innerHTML = `<li class="small" style="background:none">${radioOn ? 'Nobody in line, so Room Radio is playing songs picked for everyone here. Join to DJ!' : 'Nobody in line. Join to DJ!'}</li>`;
   order.forEach((uid, i) => {
-    const u = users[uid] || {name:'(away)', dino:'💤'}, li = document.createElement('li');
+    const u = users[uid] || {name:'(away)', avatar:0}, li = document.createElement('li');
     if(uid === R.uid) li.className = 'me';
     const n = listOf((st.djq || {})[uid]).length;
-    li.innerHTML = `<span class="pos">${c && c.uid === uid ? '🎧' : i + 1}</span><span style="font-size:20px">${esc(u.dino || '🦖')}</span><span style="flex:1">${esc(u.name)}</span><span class="small">${n} song${n === 1 ? '' : 's'}</span>`;
+    li.innerHTML = `<span class="pos">${c && c.uid === uid ? '🎧' : i + 1}</span>${dinoSVG(u.avatar ?? 0, 30)}<span style="flex:1">${esc(u.name)}</span><span class="small">${n} song${n === 1 ? '' : 's'}</span>`;
     wl.appendChild(li);
   });
   const inLine = wait[R.uid] !== undefined;
@@ -1788,7 +2107,7 @@ function renderRoom(){
   if(!hist.length) hl.innerHTML = '<li class="small">Nothing played yet.</li>';
   hist.slice(0, 25).forEach(h => {
     const li = document.createElement('li');
-    li.innerHTML = `<div class="thumb" style="${h.img ? `background-image:url('${esc(h.img)}')` : ''}"></div><div class="qt"><div>${esc(h.title)}</div><div class="a">${esc(h.dino || '')} ${esc(h.by)} · ${esc(srcLabel[h.src] || '')}${h.skipped === 'meh' ? ' · meh’d off' : h.skipped === 'skipped' ? ' · skipped' : ''}</div></div><span class="sc">👍${h.w || 0} 👎${h.m || 0}${h.g ? ' ★' + h.g : ''}</span><button class="qbtn add" title="Add to my queue">+</button>`;
+    li.innerHTML = `<div class="thumb" style="${h.img ? `background-image:url('${esc(h.img)}')` : ''}"></div><div class="qt"><div>${esc(h.title)}</div><div class="a">${h.radio ? '📻 Room Radio' : esc(h.by)} · ${esc(srcLabel[h.src] || '')}${h.skipped === 'meh' ? ' · meh’d off' : h.skipped === 'skipped' ? ' · skipped' : ''}</div></div><span class="sc">👍${h.w || 0} 👎${h.m || 0}${h.g ? ' ★' + h.g : ''}</span><button class="qbtn add" title="Add to my queue">+</button>`;
     li.querySelector('button').onclick = () => addToQueue(h);
     hl.appendChild(li);
   });
@@ -1808,7 +2127,8 @@ function renderChat(){
   if(!R.chat.length) box.innerHTML = '<div class="msg sys">Say hi 👋</div>';
   R.chat.forEach(m => {
     const d = document.createElement('div'); d.className = 'msg' + (m.sys ? ' sys' : '');
-    d.innerHTML = m.sys ? `${esc(m.dino || '')} ${esc(m.name)} ${esc(m.text)}` : `<span class="who">${esc(m.dino || '')} ${esc(m.name)}</span>${esc(m.text)}`;
+    const av = m.av !== undefined ? dinoSVG(m.av, 22) : '';
+    d.innerHTML = m.sys ? `${av} ${esc(m.name)} ${esc(m.text)}` : `${av}<span class="who">${esc(m.name)}</span>${esc(m.text)}`;
     box.appendChild(d);
   });
   if(atBottom) box.scrollTop = box.scrollHeight;
